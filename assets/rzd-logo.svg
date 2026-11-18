@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 40" fill="none">
+  <!-- Minimalist High-Tech RZD Partner Badge -->
+  <rect width="120" height="40" rx="8" fill="#141418" stroke="#E21A1A" stroke-width="1.5"/>
+  <!-- Winged Railroad / Speed Rail Symbol -->
+  <path d="M14 20h22M20 14l12 6-12 6" stroke="#E21A1A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- RZD Letters Stylized -->
+  <text x="44" y="25" fill="#FFFFFF" font-family="'Inter', 'Montserrat', sans-serif" font-weight="900" font-size="14" letter-spacing="1.5">РЖД</text>
+  <!-- Glow Dot -->
+  <circle cx="106" cy="20" r="3.5" fill="#E21A1A"/>
+  <circle cx="106" cy="20" r="6" stroke="#E21A1A" stroke-opacity="0.4" stroke-width="1.5"/>
+</svg>
+

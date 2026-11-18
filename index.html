@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>TPSLAY 2026 — Ежегодная студенческая премия ТПС-108</title>
+  
+  <meta name="theme-color" content="#0A0A0C">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <!-- Google Fonts: Inter & Montserrat -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Стили -->
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- Библиотеки: Canvas Confetti & html2canvas -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+</head>
+<body>
+  <!-- Живой WebGL-фон Velaris (Simplex-Noise + виньетка + film grain, без сетки) -->
+  <div class="cyber-bg">
+    <canvas id="velaris-bg-canvas" class="velaris-bg-canvas"></canvas>
+  </div>
+
+  <div class="app-container">
+    <!-- Шапка сайта -->
+    <header class="main-header">
+      <div class="brand-left">
+        <div class="award-logo" title="TPS Legends Awards of the Year">
+          <span class="logo-accent">TPS</span>LAY
+          <span class="year-badge">2026</span>
+        </div>
+        <div class="group-tag">ТПС-108</div>
+      </div>
+
+      <div class="partner-logo-wrap" title="ОАО «РЖД»">
+        <img src="assets/rzd.png" alt="РЖД" class="rzd-header-png">
+      </div>
+    </header>
+
+    <!-- Прогресс-бар (показывается во время голосования) -->
+    <div id="progress-wrapper" class="progress-wrapper hidden">
+      <div class="progress-info">
+        <div class="progress-step-text">
+          <span class="step-label">Номинация</span>
+          <span id="current-step-num" class="step-active-num">1</span>
+          <span class="step-divider">/</span>
+          <span class="step-total-num">15</span>
+        </div>
+      </div>
+      <div class="train-track-container">
+        <div class="train-track-inner">
+          <div class="rail-ties"></div>
+          <div id="train-progress-line" class="train-progress-line"></div>
+          <div id="train-indicator" class="train-indicator">
+            <img src="assets/train-icon.svg" alt="Электровоз ТПС" class="train-svg">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Основная рабочая область (Экраны) -->
+    <main class="main-content">
+      
+      <!-- ================= 1. СТАРТОВЫЙ ЭКРАН (АВТОРИЗАЦИЯ) ================= -->
+      <section id="screen-auth" class="screen active">
+        <div class="hero-banner">
+          <!-- 21st.dev Shader Lines Showcase Hero -->
+          <div class="shader-hero-stage border-beam-box">
+            <canvas id="hero-shader-canvas" class="hero-shader-canvas"></canvas>
+            <div class="shader-hero-overlay"></div>
+
+            <div class="shader-hero-content">
+              <div class="hero-subhead">
+                <span class="signal-badge"><span class="signal-light"></span> ЗАКРЫТОЕ ГОЛОСОВАНИЕ</span>
+              </div>
+              <h1 class="hero-title">
+                <span class="hero-kicker">ЕЖЕГОДНАЯ ПРЕМИЯ ТПС-108</span>
+                <span id="hero-scramble-title" class="hero-gradient hero-big-brand">TPSLAY 2026</span>
+              </h1>
+              <p class="hero-desc">
+                Официальное чествование легенд группы <strong>ТПС-108</strong> при поддержке <strong>ОАО «РЖД»</strong>.
+                15 номинаций • 1 голос на человека • Честный зачёт.
+              </p>
+            </div>
+          </div>
+
+          <!-- 21st.dev Infinite Marquee Ribbon -->
+          <div class="marquee-wrap" aria-hidden="true">
+            <div class="marquee-track">
+              <span>TPSLAY 2026</span>
+              <span class="marquee-sep">•</span>
+              <span>ГЕНЕРАЛЬНЫЙ ПАРТНЁР ОАО «РЖД»</span>
+              <span class="marquee-sep">•</span>
+              <span>15 НОМИНАЦИЙ</span>
+              <span class="marquee-sep">•</span>
+              <span>TPS KING</span>
+              <span class="marquee-sep">•</span>
+              <span>ГРУППА ТПС-108</span>
+              <span class="marquee-sep">•</span>
+              <span>TPSLAY 2026</span>
+              <span class="marquee-sep">•</span>
+              <span>ГЕНЕРАЛЬНЫЙ ПАРТНЁР ОАО «РЖД»</span>
+              <span class="marquee-sep">•</span>
+              <span>15 НОМИНАЦИЙ</span>
+              <span class="marquee-sep">•</span>
+              <span>TPS KING</span>
+              <span class="marquee-sep">•</span>
+              <span>ГРУППА ТПС-108</span>
+              <span class="marquee-sep">•</span>
+            </div>
+          </div>
+
+          <div class="auth-card velaris-panel glass-panel spotlight-card border-beam-box">
+            <canvas id="velaris-stage-canvas" class="velaris-stage-canvas"></canvas>
+            <div class="velaris-content">
+              <h2 class="card-title">Введите личный PIN-код</h2>
+              <p class="card-subtitle">Шестизначный код доступа для голосования</p>
+              
+              <div class="pin-input-group">
+                <input 
+                  type="password" 
+                  id="pin-input" 
+                  class="pin-field" 
+                  maxlength="6" 
+                  inputmode="numeric" 
+                  pattern="[0-9]*" 
+                  placeholder="••••••"
+                  autocomplete="off">
+                <button id="btn-reveal-pin" class="btn-reveal" type="button" title="Показать/скрыть PIN" aria-label="Показать/скрыть PIN">
+                  <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+              </div>
+
+              <div id="pin-feedback" class="pin-feedback"></div>
+
+              <button id="btn-start-voting" class="liquid-metal-btn lm-full" disabled>
+                <span class="lm-inner">
+                  <span>НАЧАТЬ ГОЛОСОВАНИЕ</span>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 2. ЭКРАН ПОШАГОВОГО ГОЛОСОВАНИЯ ================= -->
+      <section id="screen-voting" class="screen">
+        <div class="nomination-header-box">
+          <div class="nomination-category-badge" id="nom-category-badge">Категория</div>
+          <h2 class="nomination-title" id="nom-title">Название номинации</h2>
+          <p class="nomination-description" id="nom-desc">Описание номинации</p>
+        </div>
+
+        <!-- Сетка 4 кандидатов -->
+        <div class="nominees-grid" id="nominees-container">
+          <!-- Генерируется динамически через app.js -->
+        </div>
+      </section>
+
+      <!-- ================= 3. ЭКРАН СВОДКИ / ПРОВЕРКИ ================= -->
+      <section id="screen-review" class="screen">
+        <div class="review-header">
+          <div class="signal-badge"><span class="signal-light green"></span> ФИНАЛЬНАЯ СТАНЦИЯ</div>
+          <h2 class="section-heading">Проверь свой выбор</h2>
+          <p class="section-subtext">Убедись, что все 15 номинаций распределены верно. После отправки изменить голос будет невозможно.</p>
+        </div>
+
+        <div id="review-list" class="review-list">
+          <!-- Заполняется в app.js -->
+        </div>
+
+        <div class="submit-action-box">
+          <button id="btn-submit-vote" class="liquid-metal-btn lm-full">
+            <span class="lm-inner">
+              <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+              <span>ПОДТВЕРДИТЬ И ОТПРАВИТЬ</span>
+            </span>
+          </button>
+          <button id="btn-back-to-quiz" class="btn-action secondary-btn">
+            <span>← Вернуться к номинациям</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- ================= 4. ФИНАЛЬНЫЙ ЭКРАН ПОБЕДЫ / РЕЗУЛЬТАТОВ ================= -->
+      <section id="screen-success" class="screen">
+        <div class="success-box glass-panel spotlight-card border-beam-box">
+          <div class="success-icon-badge">
+            <svg width="44" height="44" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#E21A1A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h2 class="success-title">ГОЛОС ПРИНЯТ!</h2>
+          <p class="success-subtitle" id="success-voter-msg">Твой выбор навечно записан в летопись группы ТПС-108</p>
+
+          <!-- Превью карточки для соцсетей -->
+          <div class="share-card-container">
+            <div id="share-card" class="share-card-preview">
+              <div class="share-card-top">
+                <div class="share-award-brand">TPSLAY 2026</div>
+                <div class="share-rzd-chip">РЖД x ТПС-108</div>
+              </div>
+              <div class="share-card-voter" id="share-voter-name">Бюллетень • ТПС-108</div>
+              <div class="share-divider"></div>
+              <div class="share-summary-grid" id="share-summary-items">
+                <!-- Компактный список -->
+              </div>
+              <div class="share-card-footer">
+                <span class="icon-inline">
+                  <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
+                  <span>Официальная премия ТПС</span>
+                </span>
+                <span class="share-verif">VERIFIED #2026</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="final-buttons-row">
+            <button id="btn-download-story" class="liquid-metal-btn lm-full">
+              <span class="lm-inner">
+                <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                <span>СКАЧАТЬ КАРТИНКУ ДЛЯ СТОРИС</span>
+              </span>
+            </button>
+            <button id="btn-view-summary" class="btn-action secondary-btn">
+              <span>Посмотреть мой выбор</span>
+            </button>
+          </div>
+
+          <div id="reset-dev-row" class="reset-dev-row">
+            <button id="btn-reset-vote" class="btn-text-muted">Проголосовать заново (Режим тестирования)</button>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Нижняя панель навигации по шагам (Liquid Metal кнопки) -->
+    <footer id="voting-nav-bar" class="voting-nav-bar hidden">
+      <button id="btn-nav-prev" class="liquid-metal-btn lm-icon" disabled title="Назад" aria-label="Назад">
+        <span class="lm-inner">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </button>
+
+      <div class="nav-status-pill">
+        <span id="nav-status-text">Выберите кандидата</span>
+      </div>
+
+      <button id="btn-nav-next" class="liquid-metal-btn lm-compact" disabled>
+        <span class="lm-inner">
+          <span id="btn-next-label">Далее</span>
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </button>
+    </footer>
+
+    <!-- Статический нижний футер -->
+    <footer class="site-footer">
+      <div class="footer-content">
+        <p>© 2026 Студенческий совет ТПС-108. При поддержке ОАО «РЖД».</p>
+        <p class="footer-sub">Скорость. Стиль. Тяговый подвижной состав.</p>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Модальное окно для видео / мемов -->
+  <div id="video-modal" class="modal-overlay hidden">
+    <div class="modal-content glass-panel">
+      <div class="modal-header">
+        <h3 id="modal-video-title" class="modal-title">Мем-досье кандидата</h3>
+        <button id="btn-close-modal" class="btn-close-modal" aria-label="Закрыть">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="video-wrapper">
+          <video id="modal-video-player" controls playsinline>
+            <source src="" type="video/mp4">
+            Ваш браузер не поддерживает видео.
+          </video>
+          <div id="video-placeholder-notice" class="video-placeholder-notice hidden">
+            <span class="video-icon">
+              <svg class="ui-icon ui-icon-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><polygon points="10 9 16 12 10 15 10 9"/></svg>
+            </span>
+            <p>Видеоматериал загружается оргкомитетом.</p>
+            <small>Положите файл в папку <code>assets/nominees/</code></small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Оверлей загрузки при отправке в Google Таблицу -->
+  <div id="loading-overlay" class="modal-overlay hidden">
+    <div class="loading-box glass-panel">
+      <div class="train-spinner">
+        <img src="assets/train-icon.svg" alt="Loading" class="spinning-train">
+      </div>
+      <h3 class="loading-title">Поезд отправляется...</h3>
+      <p class="loading-desc">Записываем ваш голос в реестр Google Таблицы ТПС-108</p>
+    </div>
+  </div>
+
+  <!-- Подключение скриптов логики и 21st.dev FX -->
+  <script src="js/config.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/effects.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
+
