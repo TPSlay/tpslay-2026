@@ -2,8 +2,7 @@
  * TPSLAY 2026 — База номинаций и кандидатов
  * Группа ТПС-108
  *
- * 15 официальных номинаций. Можно добавлять любое количество номинантов в массив nominees.
- * Фото кладите в папку assets/nominees/ или указывайте прямую ссылку.
+ * 18 официальных номинаций.
  */
 
 const NOMINATIONS = [
@@ -91,13 +90,54 @@ const NOMINATIONS = [
   },
   {
     "id": 3,
+    "title": "Пиздабол года",
+    "badge": "Fairy Tales",
+    "description": "Мастер сказок, историй про «я завтра точно буду к первой паре» и невероятных легенд.",
+    "icon": "ghost",
+    "nominees": [
+      {
+        "id": "nom_3_1",
+        "name": "Артём Ковалёв",
+        "tagline": "«Брат, я уже выхожу, через пять минут буду» (ещё спит)",
+        "photo": "assets/nominees/nom3_1.jpg",
+        "video": null,
+        "videoTitle": null
+      },
+      {
+        "id": "nom_3_2",
+        "name": "Даниил Волков",
+        "tagline": "Обещал начать учиться с понедельника ещё в сентябре",
+        "photo": "assets/nominees/nom3_2.jpg",
+        "video": null,
+        "videoTitle": null
+      },
+      {
+        "id": "nom_3_3",
+        "name": "Роман Воробьёв",
+        "tagline": "Рассказывает такие истории, что даже препод заслушался",
+        "photo": "assets/nominees/nom3_3.jpg",
+        "video": null,
+        "videoTitle": null
+      },
+      {
+        "id": "nom_3_4",
+        "name": "Илья Лебедев",
+        "tagline": "«Я не пил, я просто устал и глаза слипаются»",
+        "photo": "assets/nominees/nom3_4.jpg",
+        "video": null,
+        "videoTitle": null
+      }
+    ]
+  },
+  {
+    "id": 4,
     "title": "Подлиза года",
     "badge": "Chief Diplomat",
     "description": "Мастер дипломатии и переговоров с преподавателями на высшем уровне.",
     "icon": "handshake",
     "nominees": [
       {
-        "id": "nom_3_1",
+        "id": "nom_4_1",
         "name": "Иван Смирнов",
         "tagline": "«А ваша статья 2008 года — это шедевр научной мысли!»",
         "photo": "assets/nominees/nom3_1.jpg",
@@ -105,7 +145,7 @@ const NOMINATIONS = [
         "videoTitle": null
       },
       {
-        "id": "nom_3_2",
+        "id": "nom_4_2",
         "name": "Матвей Павлов",
         "tagline": "Первый вызывается стереть с доски и включить проектор",
         "photo": "assets/nominees/nom3_2.jpg",
@@ -113,7 +153,7 @@ const NOMINATIONS = [
         "videoTitle": null
       },
       {
-        "id": "nom_3_3",
+        "id": "nom_4_3",
         "name": "Олег Богданов",
         "tagline": "Знает клички всех кошек преподавателя по электромеханике",
         "photo": "assets/nominees/nom3_3.jpg",
@@ -121,7 +161,7 @@ const NOMINATIONS = [
         "videoTitle": null
       },
       {
-        "id": "nom_3_4",
+        "id": "nom_4_4",
         "name": "Кирилл Дергач",
         "tagline": "Умеет так кивать на лекции, что препод читает только для него",
         "photo": "assets/nominees/Dergach.png",
@@ -131,14 +171,14 @@ const NOMINATIONS = [
     ]
   },
   {
-    "id": 4,
+    "id": 5,
     "title": "Мажор года",
     "badge": "Luxury Vibe",
     "description": "Человек на роскошном движении, чьи покупки и вайб вызывают белую зависть.",
     "icon": "gem",
     "nominees": [
       {
-        "id": "nom_4_1",
+        "id": "nom_5_1",
         "name": "Максим Петров",
         "tagline": "Приезжает на пары на такси категории Ultima",
         "photo": "assets/nominees/nom4_1.jpg",
@@ -146,7 +186,7 @@ const NOMINATIONS = [
         "videoTitle": null
       },
       {
-        "id": "nom_4_2",
+        "id": "nom_5_2",
         "name": "Сергей Фёдоров",
         "tagline": "Каждый месяц новый гаджет с яблоком на крышке",
         "photo": "assets/nominees/nom4_2.jpg",
@@ -154,7 +194,7 @@ const NOMINATIONS = [
         "videoTitle": null
       },
       {
-        "id": "nom_4_3",
+        "id": "nom_5_3",
         "name": "Дарья Андреева",
         "tagline": "Кофе только из спешелти-кофеен, обед — только в ресторанах",
         "photo": "assets/nominees/nom4_3.jpg",
@@ -162,7 +202,7 @@ const NOMINATIONS = [
         "videoTitle": null
       },
       {
-        "id": "nom_4_4",
+        "id": "nom_5_4",
         "name": "Максим Рыжов",
         "tagline": "Вайб будущего топ-менеджера РЖД уже на третьем курсе",
         "photo": "assets/nominees/Ryzhov.png",
@@ -172,14 +212,55 @@ const NOMINATIONS = [
     ]
   },
   {
-    "id": 5,
+    "id": 6,
+    "title": "Мразь года",
+    "badge": "Pure Menace",
+    "description": "Главный токсик и тролль группы: мастер подколов, спойлеров и коварных подстав.",
+    "icon": "skull",
+    "nominees": [
+      {
+        "id": "nom_6_1",
+        "name": "Денис Васильев",
+        "tagline": "Напомнил преподу спросить домашку, которую никто не сделал",
+        "photo": "assets/nominees/nom6_1.jpg",
+        "video": null,
+        "videoTitle": null
+      },
+      {
+        "id": "nom_6_2",
+        "name": "Никита Голубев",
+        "tagline": "Сдаёт лабораторную последним и забирает все оставшиеся варианты",
+        "photo": "assets/nominees/nom6_2.jpg",
+        "video": null,
+        "videoTitle": null
+      },
+      {
+        "id": "nom_6_3",
+        "name": "Олег Богданов",
+        "tagline": "Занимает всю парту сумкой и делает вид, что занято",
+        "photo": "assets/nominees/nom6_3.jpg",
+        "video": null,
+        "videoTitle": null
+      },
+      {
+        "id": "nom_6_4",
+        "name": "Михаил Семёнов",
+        "tagline": "Скидывает в чат ответы с ошибками и смотрит на реакцию",
+        "photo": "assets/nominees/nom6_4.jpg",
+        "video": null,
+        "videoTitle": null
+      }
+    ]
+  },
+  {
+    "id": 7,
     "title": "Сплетник года",
     "badge": "Insider 24/7",
     "description": "Главный инсайдер ТПС-108, который узнаёт все новости раньше деканата.",
     "icon": "message",
     "nominees": [
       {
-        "id": "nom_5_1",
+        "id": "nom_7_1",
         "name": "Екатерина Зайцева",
         "tagline": "Знает расписание сессии до того, как его составили на кафедре",
         "photo": "assets/nominees/nom5_1.jpg",
@@ -187,7 +268,7 @@ const NOMINATIONS = [
         "videoTitle": null
       },
       {
-        "id": "nom_5_2",
+        "id": "nom_7_2",
         "name": "Илья Лебедев",
         "tagline": "Сеть информаторов по всем факультетам и общежитиям",
         "photo": "assets/nominees/nom5_2.jpg",
@@ -195,7 +276,7 @@ const NOMINATIONS = [
         "videoTitle": null
       },
       {
-        "id": "nom_5_3",
+        "id": "nom_7_3",
         "name": "Марсель Хисамов",
         "tagline": "«Девочки, вы сейчас упадёте, что мне только что рассказали…»",
         "photo": "assets/nominees/Hisamov.png",
@@ -203,7 +284,7 @@ const NOMINATIONS = [
         "videoTitle": null
       },
       {
-        "id": "nom_5_4",
+        "id": "nom_7_4",
         "name": "Артём Ковалёв",
         "tagline": "Главный узел связи всех чатов и пересылок института",
         "photo": "assets/nominees/nom5_4.jpg",
@@ -213,14 +294,14 @@ const NOMINATIONS = [
     ]
   },
   {
-    "id": 6,
+    "id": 8,
     "title": "Стиляга года",
     "badge": "Fashion Icon",
     "description": "Икона стиля группы: всегда безупречный внешний вид и лучшие образы.",
     "icon": "glasses",
     "nominees": [
       {
-        "id": "nom_6_1",
+        "id": "nom_8_1",
         "name": "Дарья Андреева",
         "tagline": "Коридоры универа — её личный подиум Paris Fashion Week",
         "photo": "assets/nominees/nom6_1.jpg",
@@ -228,7 +309,7 @@ const NOMINATIONS = [
         "videoTitle": null
       },
       {
-        "id": "nom_6_2",
+        "id": "nom_8_2",
         "name": "Кирилл Дергач",
         "tagline": "Обувь всегда чище, чем совесть перед сессией",
         "photo": "assets/nominees/Dergach.png",
@@ -236,7 +317,7 @@ const NOMINATIONS = [
         "videoTitle": null
       },
       {
-        "id": "nom_6_3",
+        "id": "nom_8_3",
         "name": "Екатерина Зайцева",
         "tagline": "Эстетика в деталях: украшения, парфюм и идеальный оверсайз",
         "photo": "assets/nominees/nom6_3.jpg",
@@ -244,7 +325,7 @@ const NOMINATIONS = [
         "videoTitle": null
       },
       {
-        "id": "nom_6_4",
+        "id": "nom_8_4",
         "name": "Владислав Новиков",
         "tagline": "Кастомный стритвир и самый свежий дроп кроссовок",
         "photo": "assets/nominees/nom6_4.jpg",
@@ -254,14 +335,14 @@ const NOMINATIONS = [
     ]
   },
   {
-    "id": 7,
+    "id": 9,
     "title": "Пара года",
     "badge": "Best Duo",
     "description": "Самый гармоничный и запоминающийся дуэт нашей группы.",
     "icon": "heart",
     "nominees": [
       {
-        "id": "nom_7_1",
+        "id": "nom_9_1",
         "name": "Дмитрий Кузнецов & Анна Романова",
         "tagline": "Синхронное закатывание глаз на первой паре в субботу",
         "photo": "assets/nominees/nom7_1.jpg",
@@ -269,7 +350,7 @@ const NOMINATIONS = [
         "videoTitle": null
       },
       {
-        "id": "nom_7_2",
+        "id": "nom_9_2",
         "name": "Павел Штакин & Сергей Шахов",
         "tagline": "Идеальный тандем по разделению конспектов и домашек",
         "photo": "assets/nominees/Shtakin_Shahov.png",
@@ -277,7 +358,7 @@ const NOMINATIONS = [
         "videoTitle": null
       },
       {
-        "id": "nom_7_3",
+        "id": "nom_9_3",
         "name": "Дмитрий Стрельников & Матвей Веснин",
         "tagline": "Бро-союз, неразлучный со времен первой линейки первого курса",
         "photo": "assets/nominees/Strelnikov_Vesnin.png",
@@ -285,7 +366,7 @@ const NOMINATIONS = [
         "videoTitle": null
       },
       {
-        "id": "nom_7_4",
+        "id": "nom_9_4",
         "name": "Ярослав Беляев & Виктория Макарова",
         "tagline": "Главная романтическая интрига весеннего семестра",
         "photo": "assets/nominees/nom7_4.jpg",
@@ -295,14 +376,55 @@ const NOMINATIONS = [
     ]
   },
   {
-    "id": 8,
+    "id": 10,
+    "title": "Еблан года",
+    "badge": "Zero Logic",
+    "description": "Человек, чьи гениальные решения и поступки не поддаются никаким законам физики и логики.",
+    "icon": "alertTriangle",
+    "nominees": [
+      {
+        "id": "nom_10_1",
+        "name": "Кирилл Козлов",
+        "tagline": "Пришёл на пару не в тот корпус и понял это только к концу лекции",
+        "photo": "assets/nominees/nom10_1.jpg",
+        "video": null,
+        "videoTitle": null
+      },
+      {
+        "id": "nom_10_2",
+        "name": "Егор Попов",
+        "tagline": "Забыл выключить микрофон в зуме в самый неподходящий момент",
+        "photo": "assets/nominees/nom10_2.jpg",
+        "video": null,
+        "videoTitle": null
+      },
+      {
+        "id": "nom_10_3",
+        "name": "Владислав Новиков",
+        "tagline": "Поставил будильник на 07:00 вечера вместо утра и удивился",
+        "photo": "assets/nominees/nom10_3.jpg",
+        "video": null,
+        "videoTitle": null
+      },
+      {
+        "id": "nom_10_4",
+        "name": "Матвей Павлов",
+        "tagline": "Случайно удалил курсач за 5 минут до отправки и создал новый",
+        "photo": "assets/nominees/nom10_4.jpg",
+        "video": null,
+        "videoTitle": null
+      }
+    ]
+  },
+  {
+    "id": 11,
     "title": "Голос группы",
     "badge": "Big Voice",
     "description": "Самый громкий, узнаваемый или музыкальный голос, без которого не проходит ни один день.",
     "icon": "mic",
     "nominees": [
       {
-        "id": "nom_8_1",
+        "id": "nom_11_1",
         "name": "Матвей Веснин",
         "tagline": "Бас, от которого вибрируют стекла в аудитории 402",
         "photo": "assets/nominees/Vesnin.png",
@@ -310,7 +432,7 @@ const NOMINATIONS = [
         "videoTitle": null
       },
       {
-        "id": "nom_8_2",
+        "id": "nom_11_2",
         "name": "Анна Романова",
         "tagline": "Слышно с любого конца коридора даже во время перемены",
         "photo": "assets/nominees/nom8_2.jpg",
@@ -318,7 +440,7 @@ const NOMINATIONS = [
         "videoTitle": null
       },
       {
-        "id": "nom_8_3",
+        "id": "nom_11_3",
         "name": "Иван Смирнов",
         "tagline": "Главный вокалист на всех спонтанных гитарных сходках",
         "photo": "assets/nominees/nom8_3.jpg",
@@ -326,7 +448,7 @@ const NOMINATIONS = [
         "videoTitle": null
       },
       {
-        "id": "nom_8_4",
+        "id": "nom_11_4",
         "name": "Денис Васильев",
         "tagline": "Умеет одним выкриком вернуть внимание всей аудитории",
         "photo": "assets/nominees/nom8_4.jpg",
@@ -336,14 +458,14 @@ const NOMINATIONS = [
     ]
   },
   {
-    "id": 9,
+    "id": 12,
     "title": "Гений года",
     "badge": "Big Brain",
     "description": "Мозговой центр группы, спасающий всех на зачётах, экзаменах и сложных парах.",
     "icon": "cpu",
     "nominees": [
       {
-        "id": "nom_9_1",
+        "id": "nom_12_1",
         "name": "Дмитрий Кузнецов",
         "tagline": "Пишет расчёты тяги тепловоза в уме быстрее калькулятора",
         "photo": "assets/nominees/nom9_1.jpg",
@@ -351,7 +473,7 @@ const NOMINATIONS = [
         "videoTitle": null
       },
       {
-        "id": "nom_9_2",
+        "id": "nom_12_2",
         "name": "Виктория Макарова",
         "tagline": "Хранительница идеальных конспектов, на которые молится вся группа",
         "photo": "assets/nominees/nom9_2.jpg",
@@ -359,7 +481,7 @@ const NOMINATIONS = [
         "videoTitle": null
       },
       {
-        "id": "nom_9_3",
+        "id": "nom_12_3",
         "name": "Владислав Новиков",
         "tagline": "Решает задачу повышенной сложности пока препод чертит схему",
         "photo": "assets/nominees/nom9_3.jpg",
@@ -367,7 +489,7 @@ const NOMINATIONS = [
         "videoTitle": null
       },
       {
-        "id": "nom_9_4",
+        "id": "nom_12_4",
         "name": "Павел Штакин",
         "tagline": "Тот самый человек, чьи голосовые с объяснениями слушают ночью перед экзаменом",
         "photo": "assets/nominees/Shtakin.png",
@@ -377,14 +499,14 @@ const NOMINATIONS = [
     ]
   },
   {
-    "id": 10,
+    "id": 13,
     "title": "Мем года",
     "badge": "Meme Generator",
     "description": "Человек-генератор локальных шуток, фраз и ситуаций, которые разошлись на цитаты.",
     "icon": "masks",
     "nominees": [
       {
-        "id": "nom_10_1",
+        "id": "nom_13_1",
         "name": "Илья Лебедев",
         "tagline": "Автор стикерпака, за который можно вылететь из института",
         "photo": "assets/nominees/nom10_1.jpg",
@@ -392,7 +514,7 @@ const NOMINATIONS = [
         "videoTitle": "Легендарный ответ на коллоквиуме"
       },
       {
-        "id": "nom_10_2",
+        "id": "nom_13_2",
         "name": "Денис Васильев",
         "tagline": "Одной фразой срывает пары и отправляет всю группу под стол",
         "photo": "assets/nominees/nom10_2.jpg",
@@ -400,7 +522,7 @@ const NOMINATIONS = [
         "videoTitle": null
       },
       {
-        "id": "nom_10_3",
+        "id": "nom_13_3",
         "name": "Никита Голубев",
         "tagline": "Превратил сдачу лабораторных по электровозам в стендап",
         "photo": "assets/nominees/nom10_3.jpg",
@@ -408,7 +530,7 @@ const NOMINATIONS = [
         "videoTitle": null
       },
       {
-        "id": "nom_10_4",
+        "id": "nom_13_4",
         "name": "Роман Воробьёв",
         "tagline": "Живой шаблон мема в любой жизненной ситуации",
         "photo": "assets/nominees/nom10_4.jpg",
@@ -418,14 +540,14 @@ const NOMINATIONS = [
     ]
   },
   {
-    "id": 11,
+    "id": 14,
     "title": "Харизма года",
     "badge": "Main Character",
     "description": "Человек, который притягивает внимание и заряжает атмосферу в любой компании.",
     "icon": "flame",
     "nominees": [
       {
-        "id": "nom_11_1",
+        "id": "nom_14_1",
         "name": "Михаил Семёнов",
         "tagline": "Заходит в аудиторию как рок-звезда на стадион",
         "photo": "assets/nominees/nom11_1.jpg",
@@ -433,7 +555,7 @@ const NOMINATIONS = [
         "videoTitle": null
       },
       {
-        "id": "nom_11_2",
+        "id": "nom_14_2",
         "name": "Богдан Морозов",
         "tagline": "Его смех эхом разносится по всему третьему этажу",
         "photo": "assets/nominees/nom11_2.jpg",
@@ -441,7 +563,7 @@ const NOMINATIONS = [
         "videoTitle": null
       },
       {
-        "id": "nom_11_3",
+        "id": "nom_14_3",
         "name": "Полина Соловьёва",
         "tagline": "Любой скучный день превращает в праздничный ивент",
         "photo": "assets/nominees/nom11_3.jpg",
@@ -449,7 +571,7 @@ const NOMINATIONS = [
         "videoTitle": null
       },
       {
-        "id": "nom_11_4",
+        "id": "nom_14_4",
         "name": "Сергей Фёдоров",
         "tagline": "Обаяние 100-го уровня: даже строгие преподы улыбаются",
         "photo": "assets/nominees/nom11_4.jpg",
@@ -459,14 +581,14 @@ const NOMINATIONS = [
     ]
   },
   {
-    "id": 12,
+    "id": 15,
     "title": "Фотограф года",
     "badge": "Archive King",
     "description": "Главный архивариус группы, у которого есть компромат и лучшие кадры со всех событий.",
     "icon": "camera",
     "nominees": [
       {
-        "id": "nom_12_1",
+        "id": "nom_15_1",
         "name": "Кирилл Дергач",
         "tagline": "Снимет тебя так, что сразу поставишь на аватарку во всех соцсетях",
         "photo": "assets/nominees/Dergach.png",
@@ -474,7 +596,7 @@ const NOMINATIONS = [
         "videoTitle": null
       },
       {
-        "id": "nom_12_2",
+        "id": "nom_15_2",
         "name": "Алексей Соколов",
         "tagline": "Хранит 128 ГБ спящих одногруппников для шантажа перед дипломом",
         "photo": "assets/nominees/nom12_2.jpg",
@@ -482,7 +604,7 @@ const NOMINATIONS = [
         "videoTitle": null
       },
       {
-        "id": "nom_12_3",
+        "id": "nom_15_3",
         "name": "Даниил Волков",
         "tagline": "Всегда ловит самые нелепые и гениальные моменты дня",
         "photo": "assets/nominees/nom12_3.jpg",
@@ -490,7 +612,7 @@ const NOMINATIONS = [
         "videoTitle": null
       },
       {
-        "id": "nom_12_4",
+        "id": "nom_15_4",
         "name": "Полина Соловьёва",
         "tagline": "Главный хроникёр сторис и кружочков в Telegram-чате группы",
         "photo": "assets/nominees/nom12_4.jpg",
@@ -500,14 +622,14 @@ const NOMINATIONS = [
     ]
   },
   {
-    "id": 13,
+    "id": 16,
     "title": "Перевоплощение года",
     "badge": "Total Upgrade",
     "description": "Самый яркий апгрейд, смена имиджа или раскрытие с совершенно новой стороны.",
     "icon": "sparkles",
     "nominees": [
       {
-        "id": "nom_13_1",
+        "id": "nom_16_1",
         "name": "Тимофей Михайлов",
         "tagline": "От скромного парня с задней парты до души любой вечеринки",
         "photo": "assets/nominees/nom13_1.jpg",
@@ -515,7 +637,7 @@ const NOMINATIONS = [
         "videoTitle": null
       },
       {
-        "id": "nom_13_2",
+        "id": "nom_16_2",
         "name": "Сергей Шахов",
         "tagline": "Кардинальная смена причёски, стиля и взгляда на жизнь",
         "photo": "assets/nominees/Shahov.png",
@@ -523,7 +645,7 @@ const NOMINATIONS = [
         "videoTitle": null
       },
       {
-        "id": "nom_13_3",
+        "id": "nom_16_3",
         "name": "Анна Романова",
         "tagline": "Неожиданно начала закрывать все хвосты с первой попытки",
         "photo": "assets/nominees/nom13_3.jpg",
@@ -531,7 +653,7 @@ const NOMINATIONS = [
         "videoTitle": null
       },
       {
-        "id": "nom_13_4",
+        "id": "nom_16_4",
         "name": "Ярослав Беляев",
         "tagline": "Прокачался в качалке так, что парты трещат",
         "photo": "assets/nominees/nom13_4.jpg",
@@ -541,14 +663,14 @@ const NOMINATIONS = [
     ]
   },
   {
-    "id": 14,
+    "id": 17,
     "title": "Завоз года",
     "badge": "Big Drop",
     "description": "Самый эпичный, неожиданный или легендарный поступок за весь учебный год.",
     "icon": "zap",
     "nominees": [
       {
-        "id": "nom_14_1",
+        "id": "nom_17_1",
         "name": "Владислав Новиков",
         "tagline": "Сдал курсач за 15 минут до дедлайна после бессонной недели",
         "photo": "assets/nominees/nom14_1.jpg",
@@ -556,7 +678,7 @@ const NOMINATIONS = [
         "videoTitle": "Финальный клик перед закрытием ведомости"
       },
       {
-        "id": "nom_14_2",
+        "id": "nom_17_2",
         "name": "Кирилл Козлов",
         "tagline": "Завёз колонку и устроил рейв в пустой лекционной",
         "photo": "assets/nominees/nom14_2.jpg",
@@ -564,7 +686,7 @@ const NOMINATIONS = [
         "videoTitle": null
       },
       {
-        "id": "nom_14_3",
+        "id": "nom_17_3",
         "name": "Матвей Павлов",
         "tagline": "Договорился об автомате для всей подгруппы за 2 шутки",
         "photo": "assets/nominees/nom14_3.jpg",
@@ -572,7 +694,7 @@ const NOMINATIONS = [
         "videoTitle": null
       },
       {
-        "id": "nom_14_4",
+        "id": "nom_17_4",
         "name": "Артём Ковалёв",
         "tagline": "Пришёл на пересдачу в костюме-тройке и спасся на 3.0",
         "photo": "assets/nominees/nom14_4.jpg",
@@ -582,14 +704,14 @@ const NOMINATIONS = [
     ]
   },
   {
-    "id": 15,
+    "id": 18,
     "title": "TPS KING",
     "badge": "The Ultimate Crown",
     "description": "Главная награда премии: абсолютный король и легенда группы ТПС-108 в 2026 году.",
     "icon": "crown",
     "nominees": [
       {
-        "id": "nom_15_1",
+        "id": "nom_18_1",
         "name": "Алексей Соколов",
         "tagline": "Бессменный двигатель группы, душа компании и человек-оркестр",
         "photo": "assets/nominees/nom15_1.jpg",
@@ -597,7 +719,7 @@ const NOMINATIONS = [
         "videoTitle": "Тронная речь кандидата"
       },
       {
-        "id": "nom_15_2",
+        "id": "nom_18_2",
         "name": "Дмитрий Кузнецов",
         "tagline": "Надежный как советский тепловоз 2ТЭ10М и верный друг",
         "photo": "assets/nominees/nom15_2.jpg",
@@ -605,7 +727,7 @@ const NOMINATIONS = [
         "videoTitle": null
       },
       {
-        "id": "nom_15_3",
+        "id": "nom_18_3",
         "name": "Илья Лебедев",
         "tagline": "Король атмосферы и зачинщик всех лучших воспоминаний третьего курса",
         "photo": "assets/nominees/nom15_3.jpg",
@@ -613,7 +735,7 @@ const NOMINATIONS = [
         "videoTitle": null
       },
       {
-        "id": "nom_15_4",
+        "id": "nom_18_4",
         "name": "Михаил Семёнов",
         "tagline": "Абсолютный авторитет и главный харизматик потока",
         "photo": "assets/nominees/nom15_4.jpg",

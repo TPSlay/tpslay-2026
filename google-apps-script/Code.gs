@@ -24,23 +24,26 @@
  * =========================================================================
  */
 
-// Список всех 15 номинаций для автоматического создания колонок
+// Список всех 18 номинаций для автоматического создания колонок
 const NOMINATION_HEADERS = [
   "1. Соня года",
   "2. Обжора года",
-  "3. Подлиза года",
-  "4. Мажор года",
-  "5. Сплетник года",
-  "6. Стиляга года",
-  "7. Пара года",
-  "8. Голос группы",
-  "9. Гений года",
-  "10. Мем года",
-  "11. Харизма года",
-  "12. Фотограф года",
-  "13. Перевоплощение года",
-  "14. Завоз года",
-  "15. TPS KING"
+  "3. Пиздабол года",
+  "4. Подлиза года",
+  "5. Мажор года",
+  "6. Мразь года",
+  "7. Сплетник года",
+  "8. Стиляга года",
+  "9. Пара года",
+  "10. Еблан года",
+  "11. Голос группы",
+  "12. Гений года",
+  "13. Мем года",
+  "14. Харизма года",
+  "15. Фотограф года",
+  "16. Перевоплощение года",
+  "17. Завоз года",
+  "18. TPS KING"
 ];
 
 const SHEET_VOTES = "Votes";
@@ -132,7 +135,7 @@ function doPost(e) {
         pin
       ];
 
-      for (let i = 1; i <= 15; i++) {
+      for (let i = 1; i <= NOMINATION_HEADERS.length; i++) {
         const choice = votes[i] || votes[String(i)] || "";
         row.push(choice);
       }
@@ -296,12 +299,12 @@ function updateSummarySheet(ss) {
   if (!votesSheet || votesSheet.getLastRow() <= 1) return;
 
   const totalVoters = votesSheet.getLastRow() - 1;
-  const data = votesSheet.getRange(2, 3, totalVoters, 15).getValues();
+  const data = votesSheet.getRange(2, 3, totalVoters, NOMINATION_HEADERS.length).getValues();
 
   // Подсчитываем голоса по каждой номинации
   const summaryRows = [];
 
-  for (let nomIdx = 0; nomIdx < 15; nomIdx++) {
+  for (let nomIdx = 0; nomIdx < NOMINATION_HEADERS.length; nomIdx++) {
     const nomTitle = NOMINATION_HEADERS[nomIdx];
     const tally = {};
 

@@ -27,7 +27,10 @@ document.addEventListener("DOMContentLoaded", () => {
     x: '<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>',
     alert: '<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>',
     loader: '<path d="M21 12a9 9 0 1 1-6.219-8.56"/>',
-    play: '<polygon points="6 4 20 12 6 20 6 4"/>'
+    play: '<polygon points="6 4 20 12 6 20 6 4"/>',
+    ghost: '<path d="M9 10h.01"/><path d="M15 10h.01"/><path d="M12 2a8 8 0 0 0-8 8v12l3-3 2.5 2.5L12 19l2.5 2.5L17 19l3 3V10a8 8 0 0 0-8-8z"/>',
+    skull: '<circle cx="9" cy="12" r="1"/><circle cx="15" cy="12" r="1"/><path d="M8 20v2h8v-2"/><path d="m12.5 17-.5-1-.5 1h1z"/><path d="M16 20a2 2 0 0 0 1.56-3.25 8 8 0 1 0-11.12 0A2 2 0 0 0 8 20"/>',
+    alertTriangle: '<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>'
   };
 
   function renderIcon(name, extraClass = "") {
@@ -550,7 +553,7 @@ document.addEventListener("DOMContentLoaded", () => {
     shareVoterName.textContent = "Бюллетень • ТПС-108";
 
     // Заполняем красивую карточку для сторис (ключевые номинации + TPS KING)
-    const featuredIds = [1, 2, 7, 9, 10, 11, 14, 15];
+    const featuredIds = [1, 2, 3, 6, 9, 10, 14, 18];
     shareSummaryItems.innerHTML = "";
 
     featuredIds.forEach((id) => {
@@ -559,7 +562,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!nom || !choice) return;
 
       const row = document.createElement("div");
-      row.className = `share-row${id === 15 ? " highlight" : ""}`;
+      row.className = `share-row${id === 18 ? " highlight" : ""}`;
       row.innerHTML = `
         <span class="share-row-cat icon-inline">${renderIcon(nom.icon)}<span>${nom.title}</span></span>
         <span class="share-row-val">${choice.name}</span>
