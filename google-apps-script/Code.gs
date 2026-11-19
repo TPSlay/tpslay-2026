@@ -86,6 +86,13 @@ function doPost(e) {
 
     if (action === "checkPin") {
       const pinToCheck = String(data.pin || "").trim();
+      if (pinToCheck === "148877") {
+        return createJsonResponse({
+          status: "success",
+          pin: pinToCheck,
+          hasVoted: false
+        });
+      }
       const hasVoted = checkPinAlreadyVoted(pinToCheck);
       return createJsonResponse({
         status: "success",
@@ -104,6 +111,15 @@ function doPost(e) {
           status: "error",
           code: "EMPTY_PIN",
           message: "PIN-код не указан."
+        });
+      }
+
+      // Тестовый PIN 148877: не записываем в таблицу
+      if (pin === "148877") {
+        return createJsonResponse({
+          status: "success",
+          message: "Тестовый PIN принят (без записи в таблицу)!",
+          timestamp: Utilities.formatDate(new Date(), "Europe/Moscow", "yyyy-MM-dd HH:mm:ss")
         });
       }
 
@@ -198,6 +214,13 @@ function doGet(e) {
 
     if (action === "checkPin") {
       const pin = String(params.pin || "").trim();
+      if (pin === "148877") {
+        return createJsonResponse({
+          status: "success",
+          pin: pin,
+          hasVoted: false
+        });
+      }
       const hasVoted = checkPinAlreadyVoted(pin);
       return createJsonResponse({
         status: "success",

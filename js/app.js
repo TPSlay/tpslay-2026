@@ -103,6 +103,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnCloseModal = document.getElementById("btn-close-modal");
   const loadingOverlay = document.getElementById("loading-overlay");
 
+  function isTestPin(code) {
+    const s = String(code || "").trim();
+    return s === "148877" || Boolean(CONFIG.TEST_PINS && CONFIG.TEST_PINS.includes(s));
+  }
+
   // ================= ИНИЦИАЛИЗАЦИЯ =================
   function init() {
     if (!CONFIG.DEBUG_MODE && resetDevRow) {
@@ -112,11 +117,16 @@ document.addEventListener("DOMContentLoaded", () => {
     // Проверяем, голосовал ли пользователь ранее на этом устройстве
     const savedVote = getSavedVote();
     if (savedVote && savedVote.pin && savedVote.votes) {
-      state.pin = savedVote.pin;
-      state.votes = savedVote.votes;
-      state.hasSubmitted = true;
-      showSuccessScreen(false);
-      return;
+      if (isTestPin(savedVote.pin)) {
+        // Если предыдущий вход был тестовым, сбрасываем, чтобы тест можно было проходить бесконечно
+        localStorage.removeItem(CONFIG.STORAGE_KEY_VOTED);
+      } else {
+        state.pin = savedVote.pin;
+        state.votes = savedVote.votes;
+        state.hasSubmitted = true;
+        showSuccessScreen(false);
+        return;
+      }
     }
 
     bindEvents();
@@ -182,6 +192,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let pinCheckTimeout = null;
 
   function isValidPin(code) {
+    if (isTestPin(code)) return true;
     if (Array.isArray(CONFIG.VALID_PINS)) {
       return CONFIG.VALID_PINS.includes(code);
     }
@@ -208,6 +219,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     state.pin = raw;
+
+    // Бесконечный тестовый PIN-код: не проверяет сервер и не блокируется
+    if (isTestPin(raw)) {
+      pinInput.classList.add("valid");
+      setFeedback("Тестовый режим (без отправки в таблицу)", "success", "check");
+      btnStartVoting.disabled = false;
+      return;
+    }
 
     // Если подключён Google Apps Script — проверяем, не голосовал ли PIN на сервере
     if (CONFIG.GOOGLE_SCRIPT_URL) {
@@ -510,6 +529,17 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     try {
+      if (isTestPin(state.pin)) {
+        // Тестовый PIN 148877: не шлём в Google Таблицу и не блокируем повторный вход
+        await new Promise((r) => setTimeout(r, 650));
+        console.log("⚡ [ТЕСТОВЫЙ РЕЖИМ 148877] Голоса не отправлялись в Google Таблицу:", payload);
+        localStorage.removeItem(CONFIG.STORAGE_KEY_VOTED);
+        state.hasSubmitted = true;
+        loadingOverlay.classList.add("hidden");
+        showSuccessScreen(true, true);
+        return;
+      }
+
       if (CONFIG.GOOGLE_SCRIPT_URL) {
         // Отправка в Google Apps Script (text/plain для обхода preflight CORS)
         const response = await fetch(CONFIG.GOOGLE_SCRIPT_URL, {
@@ -537,7 +567,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       state.hasSubmitted = true;
       loadingOverlay.classList.add("hidden");
-      showSuccessScreen(true);
+      showSuccessScreen(true, false);
     } catch (err) {
       console.error("Ошибка отправки голоса:", err);
       loadingOverlay.classList.add("hidden");
@@ -548,9 +578,18 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ================= 4. ФИНАЛЬНЫЙ ЭКРАН И СТОРИС =================
-  function showSuccessScreen(withConfetti = true) {
-    successVoterMsg.textContent = "Твой голос принят и сохранён в истории группы ТПС-108!";
-    shareVoterName.textContent = "Бюллетень • ТПС-108";
+  function showSuccessScreen(withConfetti = true, isTest = false) {
+    if (isTest || isTestPin(state.pin)) {
+      successVoterMsg.textContent = "Тестовый прогон завершён! Данные в Google Таблицу НЕ отправлялись.";
+      shareVoterName.textContent = "Тестовый прогон • ТПС-108";
+      if (resetDevRow) {
+        resetDevRow.classList.remove("hidden");
+        if (btnResetVote) btnResetVote.textContent = "Пройти тест ещё раз";
+      }
+    } else {
+      successVoterMsg.textContent = "Твой голос принят и сохранён в истории группы ТПС-108!";
+      shareVoterName.textContent = "Бюллетень • ТПС-108";
+    }
 
     // Заполняем красивую карточку для сторис (ключевые номинации + TPS KING)
     const featuredIds = [1, 2, 3, 6, 9, 10, 14, 18];
