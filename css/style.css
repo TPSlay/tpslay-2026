@@ -69,10 +69,20 @@ body {
 /* ================= CYBER / RAIL BACKGROUND ================= */
 .cyber-bg {
   position: fixed;
-  inset: 0;
+  top: -60px;
+  left: 0;
+  right: 0;
+  height: calc(100vh + 180px);
+  height: calc(100lvh + 180px);
   z-index: 0;
   pointer-events: none;
   overflow: hidden;
+  transform: translate3d(0, 0, 0);
+  -webkit-transform: translate3d(0, 0, 0);
+  background:
+    radial-gradient(ellipse at 25% 22%, rgba(125, 14, 18, 0.55) 0%, transparent 58%),
+    radial-gradient(ellipse at 78% 76%, rgba(168, 28, 16, 0.35) 0%, transparent 58%),
+    #070709;
 }
 
 .rail-grid {
@@ -1655,17 +1665,11 @@ body {
 .velaris-panel {
   position: relative;
   overflow: hidden;
-  background: #08080a;
+  background: radial-gradient(circle at 50% 0%, rgba(160, 22, 18, 0.25), rgba(10, 10, 14, 0.78) 70%);
 }
 
 .velaris-stage-canvas {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0.72;
-  pointer-events: none;
-  z-index: 0;
+  display: none;
 }
 
 .velaris-content {
@@ -1689,7 +1693,13 @@ body {
   margin-bottom: 14px;
 }
 
-/* ================= 21st.dev LIQUID METAL BUTTON ================= */
+/* ================= 21st.dev LIQUID METAL BUTTON (GPU CSS) ================= */
+@property --lm-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
 .liquid-metal-btn {
   position: relative;
   display: inline-flex;
@@ -1698,7 +1708,19 @@ body {
   padding: 2.5px;
   border: none;
   border-radius: 999px;
-  background: linear-gradient(135deg, #2b2b33, #8f96a3, #E21A1A, #1a1a20);
+  background: conic-gradient(
+    from var(--lm-angle),
+    #23242b 0deg,
+    #b8bec9 52deg,
+    #ffffff 74deg,
+    #e21a1a 115deg,
+    #1c1c24 175deg,
+    #8d94a0 230deg,
+    #ffffff 252deg,
+    #e21a1a 295deg,
+    #23242b 360deg
+  );
+  animation: lmSpin 4.5s linear infinite;
   cursor: pointer;
   overflow: hidden;
   box-shadow:
@@ -1707,6 +1729,14 @@ body {
     inset 0 1px 1px rgba(255, 255, 255, 0.45);
   transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s ease, opacity 0.25s ease;
   user-select: none;
+}
+
+.liquid-metal-btn:hover:not(:disabled) {
+  animation-duration: 1.8s;
+}
+
+@keyframes lmSpin {
+  to { --lm-angle: 360deg; }
 }
 
 .liquid-metal-btn.lm-full {

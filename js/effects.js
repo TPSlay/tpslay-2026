@@ -201,36 +201,52 @@ const TPSFX = (() => {
   function mountShader(canvas, fragmentSource, options = {}) {
     if (!canvas) return null;
 
-    const gl = canvas.getContext("webgl", { alpha: false, antialias: false, powerPreference: "high-performance" })
-            || canvas.getContext("experimental-webgl");
+    const gl = canvas.getContext("webgl", {
+      alpha: false,
+      antialias: false,
+      preserveDrawingBuffer: true,
+      powerPreference: "default"
+    }) || canvas.getContext("experimental-webgl");
+
     if (!gl) {
       canvas.classList.add("webgl-fallback");
       return null;
     }
 
-    const vs = compile(gl, gl.VERTEX_SHADER, VERTEX_SHADER);
-    const fs = compile(gl, gl.FRAGMENT_SHADER, fragmentSource);
-    if (!vs || !fs) return null;
+    let prog = null;
+    let resLoc = null;
+    let timeLoc = null;
+    let modeLoc = null;
+    let hoverLoc = null;
 
-    const prog = gl.createProgram();
-    gl.attachShader(prog, vs);
-    gl.attachShader(prog, fs);
-    gl.linkProgram(prog);
-    if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) return null;
+    function setupProgram() {
+      const vs = compile(gl, gl.VERTEX_SHADER, VERTEX_SHADER);
+      const fs = compile(gl, gl.FRAGMENT_SHADER, fragmentSource);
+      if (!vs || !fs) return false;
 
-    gl.useProgram(prog);
-    const buf = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, 1]), gl.STATIC_DRAW);
+      prog = gl.createProgram();
+      gl.attachShader(prog, vs);
+      gl.attachShader(prog, fs);
+      gl.linkProgram(prog);
+      if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) return false;
 
-    const pos = gl.getAttribLocation(prog, "position");
-    gl.enableVertexAttribArray(pos);
-    gl.vertexAttribPointer(pos, 2, gl.FLOAT, false, 0, 0);
+      gl.useProgram(prog);
+      const buf = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, 1]), gl.STATIC_DRAW);
 
-    const resLoc = gl.getUniformLocation(prog, "resolution");
-    const timeLoc = gl.getUniformLocation(prog, "time");
-    const modeLoc = gl.getUniformLocation(prog, "u_mode");
-    const hoverLoc = gl.getUniformLocation(prog, "u_hover");
+      const pos = gl.getAttribLocation(prog, "position");
+      gl.enableVertexAttribArray(pos);
+      gl.vertexAttribPointer(pos, 2, gl.FLOAT, false, 0, 0);
+
+      resLoc = gl.getUniformLocation(prog, "resolution");
+      timeLoc = gl.getUniformLocation(prog, "time");
+      modeLoc = gl.getUniformLocation(prog, "u_mode");
+      hoverLoc = gl.getUniformLocation(prog, "u_hover");
+      return true;
+    }
+
+    if (!setupProgram()) return null;
 
     const state = {
       canvas,
@@ -241,42 +257,14 @@ const TPSFX = (() => {
       displayMode: 0.0,
       targetHover: 0.0,
       displayHover: 0.0,
-      visible: true
+      visible: true,
+      contextLost: false
     };
 
     const maxDpr = options.maxDpr || 1.5;
 
-    function resize() {
-      const rect = canvas.getBoundingClientRect();
-      if (rect.width < 2 || rect.height < 2) return;
-      const dpr = Math.min(window.devicePixelRatio || 1, maxDpr);
-      canvas.width = Math.floor(rect.width * dpr);
-      canvas.height = Math.floor(rect.height * dpr);
-      gl.viewport(0, 0, canvas.width, canvas.height);
-    }
-
-    resize();
-    if (typeof ResizeObserver !== "undefined") {
-      new ResizeObserver(resize).observe(canvas);
-    } else {
-      window.addEventListener("resize", resize);
-    }
-
-    if (typeof IntersectionObserver !== "undefined") {
-      new IntersectionObserver((entries) => {
-        state.visible = entries[0].isIntersecting;
-      }, { threshold: 0.01 }).observe(canvas);
-    }
-
-    function loop() {
-      requestAnimationFrame(loop);
-      if (!state.visible || document.hidden) return;
-      if (canvas.width < 2 || canvas.height < 2) resize();
-
-      state.time += state.speed;
-      state.displayMode += (state.targetMode - state.displayMode) * 0.08;
-      state.displayHover += (state.targetHover - state.displayHover) * 0.1;
-
+    function drawFrame() {
+      if (!prog || state.contextLost || canvas.width < 2 || canvas.height < 2) return;
       gl.useProgram(prog);
       gl.uniform2f(resLoc, canvas.width, canvas.height);
       gl.uniform1f(timeLoc, state.time);
@@ -285,32 +273,77 @@ const TPSFX = (() => {
       gl.drawArrays(gl.TRIANGLES, 0, 6);
     }
 
+    function resize() {
+      const rect = canvas.getBoundingClientRect();
+      if (rect.width < 2 || rect.height < 2) return;
+      const dpr = Math.min(window.devicePixelRatio || 1, maxDpr);
+      const newW = Math.floor(rect.width * dpr);
+      const newH = Math.floor(rect.height * dpr);
+
+      // На телефоне при скрытии адресной строки меняется только высота:
+      // пропускаем мелкие ресайзы, чтобы не переаллоцировать WebGL-буфер во время скролла
+      if (
+        options.isFixedBackdrop &&
+        canvas.width > 0 &&
+        Math.abs(newW - canvas.width) <= 2 &&
+        Math.abs(newH - canvas.height) < 180
+      ) {
+        return;
+      }
+
+      if (canvas.width !== newW || canvas.height !== newH) {
+        canvas.width = newW;
+        canvas.height = newH;
+        gl.viewport(0, 0, newW, newH);
+        drawFrame(); // Мгновенно перерисовываем кадр, чтобы не моргнуло чёрным
+      }
+    }
+
+    canvas.addEventListener("webglcontextlost", (e) => {
+      e.preventDefault();
+      state.contextLost = true;
+    }, false);
+
+    canvas.addEventListener("webglcontextrestored", () => {
+      state.contextLost = false;
+      if (setupProgram()) {
+        gl.viewport(0, 0, canvas.width, canvas.height);
+        drawFrame();
+      }
+    }, false);
+
+    resize();
+    if (typeof ResizeObserver !== "undefined") {
+      new ResizeObserver(resize).observe(canvas);
+    } else {
+      window.addEventListener("resize", resize);
+    }
+
+    if (!options.isFixedBackdrop && typeof IntersectionObserver !== "undefined") {
+      new IntersectionObserver((entries) => {
+        state.visible = entries[0].isIntersecting;
+      }, { threshold: 0.01 }).observe(canvas);
+    }
+
+    function loop() {
+      requestAnimationFrame(loop);
+      if (!state.visible || document.hidden || state.contextLost) return;
+      if (canvas.width < 2 || canvas.height < 2) resize();
+
+      state.time += state.speed;
+      state.displayMode += (state.targetMode - state.displayMode) * 0.08;
+      state.displayHover += (state.targetHover - state.displayHover) * 0.1;
+
+      drawFrame();
+    }
+
     loop();
     return state;
   }
 
-  // ================= LIQUID METAL BUTTONS INIT =================
+  // ================= LIQUID METAL BUTTONS INIT (CSS GPU) =================
   function initLiquidMetalButtons() {
-    document.querySelectorAll(".liquid-metal-btn").forEach((btn) => {
-      if (btn.dataset.lmInit) return;
-      btn.dataset.lmInit = "1";
-
-      const canvas = document.createElement("canvas");
-      canvas.className = "lm-shader-canvas";
-      canvas.setAttribute("aria-hidden", "true");
-      btn.insertBefore(canvas, btn.firstChild);
-
-      const inst = mountShader(canvas, LIQUID_METAL_FRAGMENT, {
-        speed: 0.024,
-        maxDpr: 1.5
-      });
-
-      if (inst) {
-        btn.addEventListener("mouseenter", () => { inst.targetHover = 1.0; });
-        btn.addEventListener("mouseleave", () => { inst.targetHover = 0.0; });
-        btn.addEventListener("mousedown", () => { inst.time += 0.45; });
-      }
-    });
+    // Жидкий хром работает через лёгкий GPU CSS conic-gradient, не расходуя WebGL-контексты на телефоне
   }
 
   // ================= SPOTLIGHT EFFECT =================
@@ -360,22 +393,17 @@ const TPSFX = (() => {
     // 1. Живой фон Velaris (Simplex Noise + виньетка + film grain) на весь сайт
     mountShader(document.getElementById("velaris-bg-canvas"), VELARIS_FRAGMENT, {
       speed: 0.015,
-      maxDpr: 1.0
+      maxDpr: 1.0,
+      isFixedBackdrop: true
     });
 
-    // 2. Дополнительная карточка-витрина Velaris (если присутствует на странице)
-    mountShader(document.getElementById("velaris-stage-canvas"), VELARIS_FRAGMENT, {
-      speed: 0.022,
-      maxDpr: 1.25
-    });
-
-    // 3. Shader Lines на главном Hero-баннере
+    // 2. Shader Lines на главном Hero-баннере
     mountShader(document.getElementById("hero-shader-canvas"), SHADER_LINES_FRAGMENT, {
       speed: 0.05,
-      maxDpr: 1.5
+      maxDpr: 1.35
     });
 
-    // 4. Кнопки Liquid Metal
+    // 3. Кнопки Liquid Metal
     initLiquidMetalButtons();
 
     // 5. Подсветка карточек
