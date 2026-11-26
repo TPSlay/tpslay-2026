@@ -158,6 +158,52 @@
           <p class="nomination-description" id="nom-desc">Описание номинации</p>
         </div>
 
+        <!-- 21st.dev 3D Coverflow Карусель (показывается в номинации «Фотограф года») -->
+        <div id="coverflow-section" class="coverflow-section hidden">
+          <div class="coverflow-topbar">
+            <span class="coverflow-label">
+              <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
+              <span>Архив лучших кадров группы</span>
+            </span>
+            <span id="coverflow-counter" class="coverflow-counter">1 / 12</span>
+          </div>
+
+          <div id="coverflow-stage" class="coverflow-stage" tabindex="0" aria-label="Галерея фотографий">
+            <div id="coverflow-track" class="coverflow-track">
+              <!-- Генерируется динамически в app.js -->
+            </div>
+            <button id="cf-btn-prev" class="cf-arrow-btn cf-prev" type="button" aria-label="Предыдущее фото">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+            <button id="cf-btn-next" class="cf-arrow-btn cf-next" type="button" aria-label="Следующее фото">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+          </div>
+
+          <!-- Подпись активного фото (showCaption: заголовок, автор, метаданные и быстрый выбор автора) -->
+          <div id="coverflow-caption" class="coverflow-caption glass-panel">
+            <div class="cf-caption-top">
+              <div class="cf-title-group">
+                <h3 id="cf-slide-title" class="cf-slide-title">Название фото</h3>
+                <div class="cf-author-line">
+                  <span class="cf-author-badge">
+                    <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    <span>Автор: <strong id="cf-slide-author">—</strong></span>
+                  </span>
+                  <span id="cf-slide-subtitle" class="cf-slide-subtitle"></span>
+                </div>
+              </div>
+              <button id="cf-btn-vote-author" class="cf-vote-author-btn" type="button">
+                <span>Выбрать автора</span>
+              </button>
+            </div>
+            <div id="cf-meta-row" class="cf-meta-row"></div>
+          </div>
+
+          <!-- Навигация (точки или ползунок при большом количестве фото) -->
+          <div id="coverflow-pagination" class="coverflow-pagination"></div>
+        </div>
+
         <!-- Сетка 4 кандидатов -->
         <div class="nominees-grid" id="nominees-container">
           <!-- Генерируется динамически через app.js -->
@@ -290,6 +336,22 @@
             <small>Положите файл в папку <code>assets/nominees/</code></small>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Модальное окно просмотра фото на весь экран -->
+  <div id="photo-lightbox-modal" class="modal-overlay hidden">
+    <div class="modal-content glass-panel lightbox-content">
+      <div class="modal-header">
+        <div>
+          <h3 id="lightbox-title" class="modal-title">Фотография</h3>
+          <p id="lightbox-author" class="lightbox-author-sub">Автор: —</p>
+        </div>
+        <button id="btn-close-lightbox" class="btn-close-modal" aria-label="Закрыть">&times;</button>
+      </div>
+      <div class="modal-body lightbox-body">
+        <img id="lightbox-img" src="" alt="Фото" class="lightbox-img">
       </div>
     </div>
   </div>

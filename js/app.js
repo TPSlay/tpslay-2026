@@ -74,6 +74,37 @@ document.addEventListener("DOMContentLoaded", () => {
   const nomDesc = document.getElementById("nom-desc");
   const nomineesContainer = document.getElementById("nominees-container");
 
+  // 3D Coverflow Карусель
+  const coverflowSection = document.getElementById("coverflow-section");
+  const coverflowCounter = document.getElementById("coverflow-counter");
+  const coverflowStage = document.getElementById("coverflow-stage");
+  const coverflowTrack = document.getElementById("coverflow-track");
+  const cfBtnPrev = document.getElementById("cf-btn-prev");
+  const cfBtnNext = document.getElementById("cf-btn-next");
+  const cfSlideTitle = document.getElementById("cf-slide-title");
+  const cfSlideAuthor = document.getElementById("cf-slide-author");
+  const cfSlideSubtitle = document.getElementById("cf-slide-subtitle");
+  const cfBtnVoteAuthor = document.getElementById("cf-btn-vote-author");
+  const cfMetaRow = document.getElementById("cf-meta-row");
+  const coverflowPagination = document.getElementById("coverflow-pagination");
+
+  // Лайтбокс фото
+  const photoLightboxModal = document.getElementById("photo-lightbox-modal");
+  const lightboxImg = document.getElementById("lightbox-img");
+  const lightboxTitle = document.getElementById("lightbox-title");
+  const lightboxAuthor = document.getElementById("lightbox-author");
+  const btnCloseLightbox = document.getElementById("btn-close-lightbox");
+
+  // Состояние Coverflow
+  const cfState = {
+    slides: [],
+    activeIndex: 0,
+    virtualIndex: 0,
+    lastCaptionIndex: -1,
+    nomination: null,
+    slideEls: []
+  };
+
   // Нижняя навигация
   const votingNavBar = document.getElementById("voting-nav-bar");
   const btnNavPrev = document.getElementById("btn-nav-prev");
@@ -176,16 +207,39 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
 
-    // Видео-модалка
+    // Видео-модалка и Лайтбокс фото
     btnCloseModal.addEventListener("click", closeVideoModal);
     videoModal.addEventListener("click", (e) => {
       if (e.target === videoModal) closeVideoModal();
     });
+
+    if (btnCloseLightbox) {
+      btnCloseLightbox.addEventListener("click", closePhotoLightbox);
+    }
+    if (photoLightboxModal) {
+      photoLightboxModal.addEventListener("click", (e) => {
+        if (e.target === photoLightboxModal) closePhotoLightbox();
+      });
+    }
+
     document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && !videoModal.classList.contains("hidden")) {
-        closeVideoModal();
+      if (e.key === "Escape") {
+        if (!videoModal.classList.contains("hidden")) closeVideoModal();
+        if (photoLightboxModal && !photoLightboxModal.classList.contains("hidden")) closePhotoLightbox();
+        return;
+      }
+      if (coverflowSection && !coverflowSection.classList.contains("hidden") && photoLightboxModal.classList.contains("hidden")) {
+        if (e.key === "ArrowLeft") {
+          e.preventDefault();
+          stepCoverflow(-1);
+        } else if (e.key === "ArrowRight") {
+          e.preventDefault();
+          stepCoverflow(1);
+        }
       }
     });
+
+    bindCoverflowEvents();
   }
 
   // ================= 1. АВТОРИЗАЦИЯ ПО PIN =================
@@ -296,8 +350,11 @@ document.addEventListener("DOMContentLoaded", () => {
       nomineesContainer.innerHTML = "";
       const selected = state.votes[nom.id];
 
+      setupCoverflow(nom);
+
       nom.nominees.forEach((nominee) => {
-        const card = createNomineeCard(nom.id, nominee, selected && selected.id === nominee.id);
+        const isSel = Boolean(selected && (selected.id === nominee.id || selected.name === nominee.name));
+        const card = createNomineeCard(nom.id, nominee, isSel);
         nomineesContainer.appendChild(card);
       });
 
@@ -400,7 +457,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const cards = nomineesContainer.querySelectorAll(".nominee-card");
     cards.forEach((c) => {
-      const active = c.dataset.nomineeId === nominee.id;
+      const active = c.dataset.nomineeId === nominee.id || c.querySelector(".slay-nominee-name")?.textContent.trim().toLowerCase() === nominee.name.trim().toLowerCase();
       c.classList.toggle("selected", active);
       const btn = c.querySelector(".slay-crystal-btn");
       const label = c.querySelector(".crystal-label");
@@ -408,6 +465,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (label) label.textContent = active ? "✓ ВЫБРАН" : "ВЫБРАТЬ";
     });
 
+    updateCoverflowAuthorBtn();
     updateNavUI(state.currentStep);
   }
 
@@ -779,6 +837,445 @@ document.addEventListener("DOMContentLoaded", () => {
     } catch (e) {
       return null;
     }
+  }
+
+  // ================= 5. 3D COVERFLOW КАРУСЕЛЬ (21st.dev) =================
+  function getSlideAuthor(slide) {
+    if (!slide) return "Неизвестен";
+    if (slide.author) return slide.author;
+    if (Array.isArray(slide.meta)) {
+      const m = slide.meta.find((x) => x.label && x.label.toLowerCase().includes("автор"));
+      if (m && m.value) return m.value;
+    }
+    return slide.subtitle || "Неизвестен";
+  }
+
+  function escapeHtml(str) {
+    return String(str || "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  function createGalleryPlaceholder(slide, idx) {
+    const num = String(idx + 1).padStart(2, "0");
+    const author = getSlideAuthor(slide);
+    const title = (slide.title || `Кадр #${idx + 1}`).slice(0, 26);
+    const svg = `
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+        <defs>
+          <radialGradient id="cg" cx="50%" cy="40%" r="70%">
+            <stop offset="0%" stop-color="#E21A1A" stop-opacity="0.28"/>
+            <stop offset="100%" stop-color="#09090D" stop-opacity="1"/>
+          </radialGradient>
+        </defs>
+        <rect width="400" height="400" fill="#09090D"/>
+        <rect width="400" height="400" fill="url(#cg)"/>
+        <rect x="20" y="20" width="360" height="360" rx="18" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>
+        <circle cx="200" cy="155" r="46" fill="none" stroke="#E21A1A" stroke-width="2" stroke-opacity="0.8"/>
+        <circle cx="200" cy="155" r="22" fill="none" stroke="#FFFFFF" stroke-width="1.5" stroke-opacity="0.45"/>
+        <text x="40" y="64" fill="rgba(255,255,255,0.4)" font-family="Montserrat, Arial, sans-serif" font-weight="800" font-size="20">FRAME #${num}</text>
+        <text x="200" y="256" text-anchor="middle" fill="#FFFFFF" font-family="Montserrat, Arial, sans-serif" font-weight="800" font-size="20">${escapeHtml(title)}</text>
+        <text x="200" y="292" text-anchor="middle" fill="#E86235" font-family="Inter, Arial, sans-serif" font-weight="600" font-size="16">Автор: ${escapeHtml(author)}</text>
+        <text x="200" y="346" text-anchor="middle" fill="rgba(255,255,255,0.35)" font-family="Inter, Arial, sans-serif" font-size="12">Положите фото в assets/gallery/</text>
+      </svg>
+    `.trim();
+    return "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svg);
+  }
+
+  function setupCoverflow(nomination) {
+    if (!coverflowSection) return;
+    const slides = nomination.gallery || nomination.slides;
+
+    if (!Array.isArray(slides) || slides.length === 0) {
+      coverflowSection.classList.add("hidden");
+      cfState.slides = [];
+      cfState.nomination = null;
+      cfState.slideEls = [];
+      coverflowTrack.innerHTML = "";
+      return;
+    }
+
+    cfState.slides = slides;
+    cfState.nomination = nomination;
+    cfState.activeIndex = 0;
+    cfState.virtualIndex = 0;
+    cfState.lastCaptionIndex = -1;
+    cfState.slideEls = [];
+
+    coverflowTrack.innerHTML = "";
+    slides.forEach((slide, idx) => {
+      const el = document.createElement("div");
+      el.className = "cf-slide";
+      el.dataset.index = String(idx);
+      const author = getSlideAuthor(slide);
+      const fallback = createGalleryPlaceholder(slide, idx);
+
+      el.innerHTML = `
+        <div class="cf-slide-inner">
+          <img
+            src="${slide.src}"
+            alt="${escapeHtml(slide.alt || slide.title || author)}"
+            class="cf-slide-img"
+            loading="lazy"
+            draggable="false"
+            onerror="this.onerror=null; this.src='${fallback}';">
+          <div class="cf-slide-author-tag">${escapeHtml(author)}</div>
+          <div class="cf-zoom-hint" title="Открыть фото крупнее" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+          </div>
+        </div>
+      `;
+
+      coverflowTrack.appendChild(el);
+      cfState.slideEls.push(el);
+    });
+
+    buildCoverflowPagination(slides.length);
+    coverflowSection.classList.remove("hidden");
+    updateCoverflowView();
+
+    requestAnimationFrame(() => updateCoverflowView());
+  }
+
+  function buildCoverflowPagination(total) {
+    if (!coverflowPagination) return;
+    coverflowPagination.innerHTML = "";
+
+    if (total <= 14) {
+      const dotsWrap = document.createElement("div");
+      dotsWrap.className = "cf-dots-wrap";
+      for (let i = 0; i < total; i++) {
+        const dot = document.createElement("button");
+        dot.type = "button";
+        dot.className = "cf-dot";
+        dot.setAttribute("aria-label", `Фото ${i + 1}`);
+        dot.addEventListener("click", () => goToCoverflowSlide(i));
+        dotsWrap.appendChild(dot);
+      }
+      coverflowPagination.appendChild(dotsWrap);
+    } else {
+      // Для большого количества фото (15, 30, 100+) — удобный ползунок быстрой прокрутки
+      const scrubberWrap = document.createElement("div");
+      scrubberWrap.className = "cf-scrubber-wrap";
+      scrubberWrap.innerHTML = `
+        <span class="cf-scrubber-edge">1</span>
+        <input type="range" class="cf-scrubber" min="0" max="${total - 1}" value="0" aria-label="Выбор фотографии">
+        <span class="cf-scrubber-edge">${total}</span>
+      `;
+      const range = scrubberWrap.querySelector(".cf-scrubber");
+      range.addEventListener("input", (e) => {
+        goToCoverflowSlide(Number(e.target.value));
+      });
+      coverflowPagination.appendChild(scrubberWrap);
+    }
+  }
+
+  function stepCoverflow(delta) {
+    const total = cfState.slides.length;
+    if (!total) return;
+    const nextIdx = (cfState.activeIndex + delta + total) % total;
+    goToCoverflowSlide(nextIdx);
+  }
+
+  function goToCoverflowSlide(index) {
+    const total = cfState.slides.length;
+    if (!total) return;
+    const clamped = Math.max(0, Math.min(total - 1, index));
+    cfState.activeIndex = clamped;
+    cfState.virtualIndex = clamped;
+    updateCoverflowView(clamped);
+  }
+
+  function updateCoverflowView(pos = cfState.virtualIndex) {
+    const { slides, slideEls } = cfState;
+    if (!slides.length) return;
+
+    const total = slides.length;
+    const isMobile = (coverflowStage ? coverflowStage.clientWidth : window.innerWidth) < 560;
+    const baseOffset = isMobile ? 124 : 186;
+    const stepOffset = isMobile ? 54 : 74;
+
+    const nearest = Math.max(0, Math.min(total - 1, Math.round(pos)));
+    cfState.activeIndex = nearest;
+
+    slideEls.forEach((el, idx) => {
+      const offset = idx - pos;
+      const abs = Math.abs(offset);
+
+      if (abs > 4.2) {
+        el.style.opacity = "0";
+        el.style.pointerEvents = "none";
+        el.style.visibility = "hidden";
+        el.style.transform = `translate(-50%, -50%) translateX(${(offset >= 0 ? 1 : -1) * 430}px) scale(0.45)`;
+        el.classList.remove("is-active");
+        return;
+      }
+
+      el.style.visibility = "visible";
+      el.style.pointerEvents = "auto";
+
+      const sign = offset >= 0 ? 1 : -1;
+      let tx, tz, rot, scale, opacity, bright;
+
+      if (abs <= 1) {
+        // Непрерывная плавная кривая при переходе от центра (0) к боковому ряду (1)
+        tx = offset * baseOffset;
+        tz = -abs * 90;
+        rot = -offset * 35;
+        scale = 1 - abs * 0.18;
+        opacity = 1 - abs * 0.14;
+        bright = 1 - abs * 0.22;
+      } else {
+        tx = sign * (baseOffset + (abs - 1) * stepOffset);
+        tz = -Math.min(250, 90 + (abs - 1) * 55);
+        rot = -sign * Math.min(45, 35 + (abs - 1) * 4);
+        scale = Math.max(0.54, 0.82 - (abs - 1) * 0.11);
+        opacity = abs > 3.5 ? 0 : Math.max(0.22, 0.86 - (abs - 1) * 0.28);
+        bright = Math.max(0.4, 0.78 - (abs - 1) * 0.16);
+      }
+
+      el.style.transform = `translate(-50%, -50%) translateX(${tx.toFixed(1)}px) translateZ(${tz.toFixed(1)}px) rotateY(${rot.toFixed(1)}deg) scale(${scale.toFixed(3)})`;
+      el.style.opacity = opacity.toFixed(3);
+      el.style.zIndex = String(Math.round(100 - abs * 10));
+      el.style.filter = `brightness(${bright.toFixed(2)})`;
+      el.classList.toggle("is-active", idx === nearest);
+    });
+
+    // Подпись, счётчик и автор обновляются мгновенно в реальном времени при смене ближайшего кадра
+    if (cfState.lastCaptionIndex !== nearest) {
+      cfState.lastCaptionIndex = nearest;
+      syncCoverflowCaption(nearest);
+    }
+  }
+
+  function syncCoverflowCaption(activeIndex) {
+    const slides = cfState.slides;
+    if (!slides.length) return;
+
+    if (coverflowCounter) {
+      coverflowCounter.textContent = `${activeIndex + 1} / ${slides.length}`;
+    }
+
+    const activeSlide = slides[activeIndex];
+    const author = getSlideAuthor(activeSlide);
+
+    if (cfSlideTitle) {
+      cfSlideTitle.textContent = activeSlide.title || `Фотография #${activeIndex + 1}`;
+    }
+    if (cfSlideAuthor) {
+      cfSlideAuthor.textContent = author;
+    }
+    if (cfSlideSubtitle) {
+      const showSub = activeSlide.subtitle && activeSlide.subtitle !== author;
+      cfSlideSubtitle.textContent = showSub ? activeSlide.subtitle : "";
+      cfSlideSubtitle.classList.toggle("hidden", !showSub);
+    }
+
+    if (cfMetaRow) {
+      cfMetaRow.innerHTML = "";
+      if (Array.isArray(activeSlide.meta) && activeSlide.meta.length > 0) {
+        activeSlide.meta.forEach((item) => {
+          if (!item || !item.label) return;
+          const chip = document.createElement("span");
+          chip.className = "cf-meta-chip";
+          chip.innerHTML = `<span class="cf-meta-lbl">${escapeHtml(item.label)}:</span> <strong>${escapeHtml(item.value)}</strong>`;
+          cfMetaRow.appendChild(chip);
+        });
+        cfMetaRow.classList.remove("hidden");
+      } else {
+        cfMetaRow.classList.add("hidden");
+      }
+    }
+
+    const dots = coverflowPagination?.querySelectorAll(".cf-dot");
+    if (dots && dots.length) {
+      dots.forEach((d, i) => d.classList.toggle("active", i === activeIndex));
+    }
+    const scrubber = coverflowPagination?.querySelector(".cf-scrubber");
+    if (scrubber) {
+      scrubber.value = String(activeIndex);
+    }
+
+    updateCoverflowAuthorBtn();
+  }
+
+  function updateCoverflowAuthorBtn() {
+    if (!cfBtnVoteAuthor || !cfState.nomination || !cfState.slides.length) return;
+    const activeSlide = cfState.slides[cfState.activeIndex];
+    const author = getSlideAuthor(activeSlide);
+    const chosen = state.votes[cfState.nomination.id];
+    const isChosen = Boolean(chosen && chosen.name.trim().toLowerCase() === author.trim().toLowerCase());
+
+    cfBtnVoteAuthor.classList.toggle("selected", isChosen);
+    cfBtnVoteAuthor.innerHTML = isChosen
+      ? `${renderIcon("check")}<span>Выбран: ${escapeHtml(author)}</span>`
+      : `<span>Выбрать автора</span>`;
+  }
+
+  function pickCurrentCoverflowAuthor() {
+    if (!cfState.nomination || !cfState.slides.length) return;
+    const nom = cfState.nomination;
+    const activeSlide = cfState.slides[cfState.activeIndex];
+    const author = getSlideAuthor(activeSlide);
+
+    const matched = nom.nominees.find(
+      (n) => n.name.trim().toLowerCase() === author.trim().toLowerCase()
+    );
+
+    const targetNominee = matched || {
+      id: `gallery_${author.trim().toLowerCase().replace(/\s+/g, "_")}`,
+      name: author
+    };
+
+    selectNominee(nom.id, targetNominee);
+  }
+
+  function openPhotoLightbox(slide, imgSrc) {
+    if (!photoLightboxModal || !slide) return;
+    const author = getSlideAuthor(slide);
+    if (lightboxImg) lightboxImg.src = imgSrc || slide.src;
+    if (lightboxTitle) lightboxTitle.textContent = slide.title || "Фотография";
+    if (lightboxAuthor) lightboxAuthor.textContent = `Автор: ${author}`;
+    photoLightboxModal.classList.remove("hidden");
+  }
+
+  function closePhotoLightbox() {
+    if (!photoLightboxModal) return;
+    photoLightboxModal.classList.add("hidden");
+    if (lightboxImg) lightboxImg.removeAttribute("src");
+  }
+
+  function bindCoverflowEvents() {
+    if (cfBtnPrev) cfBtnPrev.addEventListener("click", () => stepCoverflow(-1));
+    if (cfBtnNext) cfBtnNext.addEventListener("click", () => stepCoverflow(1));
+    if (cfBtnVoteAuthor) cfBtnVoteAuthor.addEventListener("click", pickCurrentCoverflowAuthor);
+
+    if (!coverflowStage) return;
+
+    let isDragging = false;
+    let dragStartX = 0;
+    let dragStartY = 0;
+    let startVirtual = 0;
+    let lastMoveX = 0;
+    let lastMoveTime = 0;
+    let velocityX = 0;
+    let moved = false;
+    let activePointerId = null;
+
+    coverflowStage.addEventListener("pointerdown", (e) => {
+      if (e.target.closest(".cf-arrow-btn")) return;
+      if (e.button !== undefined && e.button !== 0 && e.pointerType === "mouse") return;
+      if (e.pointerType === "mouse") e.preventDefault();
+
+      isDragging = true;
+      dragStartX = e.clientX;
+      dragStartY = e.clientY;
+      startVirtual = cfState.virtualIndex;
+      lastMoveX = e.clientX;
+      lastMoveTime = performance.now();
+      velocityX = 0;
+      moved = false;
+      activePointerId = e.pointerId;
+
+      coverflowStage.classList.add("cf-dragging");
+      try { coverflowStage.setPointerCapture(e.pointerId); } catch (_) {}
+    });
+
+    coverflowStage.addEventListener("pointermove", (e) => {
+      if (!isDragging) return;
+      const dx = e.clientX - dragStartX;
+      const dy = e.clientY - dragStartY;
+
+      if (!moved && Math.abs(dx) > 6) {
+        moved = true;
+      }
+
+      if (moved) {
+        const now = performance.now();
+        const dt = Math.max(8, now - lastMoveTime);
+        velocityX = (e.clientX - lastMoveX) / dt; // px/ms
+        lastMoveX = e.clientX;
+        lastMoveTime = now;
+
+        const isMobile = coverflowStage.clientWidth < 560;
+        const pxPerSlide = isMobile ? 125 : 175;
+        let nextVirtual = startVirtual - dx / pxPerSlide;
+
+        const maxIdx = Math.max(0, cfState.slides.length - 1);
+        // Мягкое сопротивление (rubber-band) на краях
+        if (nextVirtual < 0) {
+          nextVirtual = nextVirtual * 0.28;
+        } else if (nextVirtual > maxIdx) {
+          nextVirtual = maxIdx + (nextVirtual - maxIdx) * 0.28;
+        }
+
+        cfState.virtualIndex = nextVirtual;
+        updateCoverflowView(nextVirtual);
+      } else if (Math.abs(dy) > 16 && e.pointerType === "touch") {
+        // Если на телефоне скроллят страницу вертикально — не перехватываем
+        isDragging = false;
+        coverflowStage.classList.remove("cf-dragging");
+      }
+    });
+
+    const endDrag = (e) => {
+      if (!isDragging) return;
+      isDragging = false;
+      coverflowStage.classList.remove("cf-dragging");
+
+      if (activePointerId !== null) {
+        try { coverflowStage.releasePointerCapture(activePointerId); } catch (_) {}
+        activePointerId = null;
+      }
+
+      if (moved) {
+        // Инерция при быстром броске
+        const momentumSlides = -velocityX * 0.35;
+        const target = Math.round(cfState.virtualIndex + Math.max(-1.4, Math.min(1.4, momentumSlides)));
+        goToCoverflowSlide(target);
+        return;
+      }
+
+      // Чистый клик без перетаскивания
+      const clickedEl = document.elementFromPoint(e.clientX, e.clientY)?.closest(".cf-slide");
+      if (clickedEl) {
+        const idx = Number(clickedEl.dataset.index);
+        if (idx === cfState.activeIndex) {
+          const img = clickedEl.querySelector(".cf-slide-img");
+          openPhotoLightbox(cfState.slides[idx], img ? img.src : null);
+        } else {
+          goToCoverflowSlide(idx);
+        }
+      }
+    };
+
+    coverflowStage.addEventListener("pointerup", endDrag);
+    coverflowStage.addEventListener("pointercancel", () => {
+      if (!isDragging) return;
+      isDragging = false;
+      coverflowStage.classList.remove("cf-dragging");
+      goToCoverflowSlide(Math.round(cfState.virtualIndex));
+    });
+
+    // Поддержка горизонтального скролла тачпадом/колесом
+    let wheelLock = false;
+    coverflowStage.addEventListener("wheel", (e) => {
+      const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : (e.shiftKey ? e.deltaY : 0);
+      if (Math.abs(delta) < 12) return;
+      e.preventDefault();
+      if (wheelLock) return;
+      wheelLock = true;
+      goToCoverflowSlide(cfState.activeIndex + (delta > 0 ? 1 : -1));
+      setTimeout(() => { wheelLock = false; }, 180);
+    }, { passive: false });
+
+    window.addEventListener("resize", () => {
+      if (coverflowSection && !coverflowSection.classList.contains("hidden")) {
+        updateCoverflowView(cfState.virtualIndex);
+      }
+    });
   }
 
   init();

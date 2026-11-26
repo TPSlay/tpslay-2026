@@ -15,9 +15,9 @@ const NOMINATIONS = [
     "nominees": [
       {
         "id": "nom_1_1",
-        "name": "Роман Воробьёв",
+        "name": "Виктор Бакалёв",
         "tagline": "Засыпает ещё до того, как лектор открыл презентацию",
-        "photo": "assets/nominees/nom1_1.jpg",
+        "photo": "assets/nominees/Bakalev.png",
         "video": "assets/nominees/jopa.mp4",
         "videoTitle": "Сон в позе мыслителя"
       },
@@ -31,9 +31,9 @@ const NOMINATIONS = [
       },
       {
         "id": "nom_1_3",
-        "name": "Никита Голубев",
+        "name": "Алексей Бурыкин",
         "tagline": "Просыпается ровно со звонком, даже если шла пара по высшей математике",
-        "photo": "assets/nominees/nom1_3.jpg",
+        "photo": "assets/nominees/Burikin.png",
         "video": null,
         "videoTitle": null
       },
@@ -64,17 +64,17 @@ const NOMINATIONS = [
       },
       {
         "id": "nom_2_2",
-        "name": "Даниил Волков",
+        "name": "Максим Рыжов",
         "tagline": "Приносит на пары контейнер с тремя сменами блюд",
-        "photo": "assets/nominees/nom2_2.jpg",
+        "photo": "assets/nominees/Ryzhov.png",
         "video": null,
         "videoTitle": null
       },
       {
         "id": "nom_2_3",
-        "name": "Максим Петров",
+        "name": "Дмитрий Воропаев",
         "tagline": "Слышит хруст пачки чипсов через две аудитории",
-        "photo": "assets/nominees/nom2_3.jpg",
+        "photo": "assets/nominees/Voropaev.png",
         "video": null,
         "videoTitle": null
       },
@@ -105,25 +105,25 @@ const NOMINATIONS = [
       },
       {
         "id": "nom_3_2",
-        "name": "Даниил Волков",
-        "tagline": "Обещал начать учиться с понедельника ещё в сентябре",
-        "photo": "assets/nominees/nom3_2.jpg",
+        "name": "Дмитрий Воропаев",
+        "tagline": "они пиздят",
+        "photo": "assets/nominees/Voropaev.png",
         "video": null,
         "videoTitle": null
       },
       {
         "id": "nom_3_3",
-        "name": "Роман Воробьёв",
+        "name": "Марсель Хисамов",
         "tagline": "Рассказывает такие истории, что даже препод заслушался",
-        "photo": "assets/nominees/nom3_3.jpg",
+        "photo": "assets/nominees/Hisamov.png",
         "video": null,
         "videoTitle": null
       },
       {
         "id": "nom_3_4",
-        "name": "Илья Лебедев",
+        "name": "Максим Владимиров",
         "tagline": "«Я не пил, я просто устал и глаза слипаются»",
-        "photo": "assets/nominees/nom3_4.jpg",
+        "photo": "assets/nominees/Vladimirov.png",
         "video": null,
         "videoTitle": null
       }
@@ -146,17 +146,17 @@ const NOMINATIONS = [
       },
       {
         "id": "nom_4_2",
-        "name": "Матвей Павлов",
+        "name": "Марсель Хисамов",
         "tagline": "Первый вызывается стереть с доски и включить проектор",
-        "photo": "assets/nominees/nom3_2.jpg",
+        "photo": "assets/nominees/Hisamov.png",
         "video": null,
         "videoTitle": null
       },
       {
         "id": "nom_4_3",
-        "name": "Олег Богданов",
+        "name": "Кирилл Скрыпников",
         "tagline": "Знает клички всех кошек преподавателя по электромеханике",
-        "photo": "assets/nominees/nom3_3.jpg",
+        "photo": "assets/nominees/Skrypnikov.png",
         "video": null,
         "videoTitle": null
       },
@@ -187,17 +187,17 @@ const NOMINATIONS = [
       },
       {
         "id": "nom_5_2",
-        "name": "Сергей Фёдоров",
+        "name": "Матвей Веснин",
         "tagline": "Каждый месяц новый гаджет с яблоком на крышке",
-        "photo": "assets/nominees/nom4_2.jpg",
+        "photo": "assets/nominees/Vesnin.png",
         "video": null,
         "videoTitle": null
       },
       {
         "id": "nom_5_3",
-        "name": "Дарья Андреева",
+        "name": "Бауржан Нурмашев",
         "tagline": "Кофе только из спешелти-кофеен, обед — только в ресторанах",
-        "photo": "assets/nominees/nom4_3.jpg",
+        "photo": "assets/nominees/Nurmashev.png",
         "video": null,
         "videoTitle": null
       },
@@ -220,33 +220,33 @@ const NOMINATIONS = [
     "nominees": [
       {
         "id": "nom_6_1",
-        "name": "Денис Васильев",
+        "name": "Максим Владимиров",
         "tagline": "Напомнил преподу спросить домашку, которую никто не сделал",
-        "photo": "assets/nominees/nom6_1.jpg",
+        "photo": "assets/nominees/Vladimirov.png",
         "video": null,
         "videoTitle": null
       },
       {
         "id": "nom_6_2",
-        "name": "Никита Голубев",
+        "name": "Данил Соколов",
         "tagline": "Сдаёт лабораторную последним и забирает все оставшиеся варианты",
-        "photo": "assets/nominees/nom6_2.jpg",
+        "photo": "assets/nominees/Sokolov.png",
         "video": null,
         "videoTitle": null
       },
       {
         "id": "nom_6_3",
-        "name": "Олег Богданов",
-        "tagline": "Занимает всю парту сумкой и делает вид, что занято",
-        "photo": "assets/nominees/nom6_3.jpg",
+        "name": "Дмитрий Воропаев",
+        "tagline": "это неправда я не мразь голосуйте в соколова",
+        "photo": "assets/nominees/Voropaev.png",
         "video": null,
         "videoTitle": null
       },
       {
         "id": "nom_6_4",
-        "name": "Михаил Семёнов",
+        "name": "Максим Рыжов",
         "tagline": "Скидывает в чат ответы с ошибками и смотрит на реакцию",
-        "photo": "assets/nominees/nom6_4.jpg",
+        "photo": "assets/nominees/Ryzhov.png",
         "video": null,
         "videoTitle": null
       }
@@ -261,17 +261,17 @@ const NOMINATIONS = [
     "nominees": [
       {
         "id": "nom_7_1",
-        "name": "Екатерина Зайцева",
+        "name": "Данил Соколов",
         "tagline": "Знает расписание сессии до того, как его составили на кафедре",
-        "photo": "assets/nominees/nom5_1.jpg",
+        "photo": "assets/nominees/Sokolov.png",
         "video": null,
         "videoTitle": null
       },
       {
         "id": "nom_7_2",
-        "name": "Илья Лебедев",
+        "name": "Дмитрий Воропаев",
         "tagline": "Сеть информаторов по всем факультетам и общежитиям",
-        "photo": "assets/nominees/nom5_2.jpg",
+        "photo": "assets/nominees/Voropaev.png",
         "video": null,
         "videoTitle": null
       },
@@ -326,9 +326,9 @@ const NOMINATIONS = [
       },
       {
         "id": "nom_8_4",
-        "name": "Владислав Новиков",
+        "name": "Виктор Бакалев",
         "tagline": "Кастомный стритвир и самый свежий дроп кроссовок",
-        "photo": "assets/nominees/nom6_4.jpg",
+        "photo": "assets/nominees/Bakalev.png",
         "video": null,
         "videoTitle": null
       }
@@ -343,9 +343,9 @@ const NOMINATIONS = [
     "nominees": [
       {
         "id": "nom_9_1",
-        "name": "Дмитрий Кузнецов & Анна Романова",
+        "name": "Дергач Кирилл & Максим Рыжов",
         "tagline": "Синхронное закатывание глаз на первой паре в субботу",
-        "photo": "assets/nominees/nom7_1.jpg",
+        "photo": "assets/nominees/Dergach_Ryzhov.png",
         "video": null,
         "videoTitle": null
       },
@@ -367,9 +367,9 @@ const NOMINATIONS = [
       },
       {
         "id": "nom_9_4",
-        "name": "Ярослав Беляев & Виктория Макарова",
+        "name": "Максим Рыжов & Кирилл Скрыпников",
         "tagline": "Главная романтическая интрига весеннего семестра",
-        "photo": "assets/nominees/nom7_4.jpg",
+        "photo": "assets/nominees/Ryzhov_Skrypnikov.png",
         "video": null,
         "videoTitle": null
       }
@@ -384,33 +384,33 @@ const NOMINATIONS = [
     "nominees": [
       {
         "id": "nom_10_1",
-        "name": "Кирилл Козлов",
+        "name": "Алексей Бурыкин",
         "tagline": "Пришёл на пару не в тот корпус и понял это только к концу лекции",
-        "photo": "assets/nominees/nom10_1.jpg",
+        "photo": "assets/nominees/Burikin.png",
         "video": null,
         "videoTitle": null
       },
       {
         "id": "nom_10_2",
-        "name": "Егор Попов",
+        "name": "Марсель Хисамов",
         "tagline": "Забыл выключить микрофон в зуме в самый неподходящий момент",
-        "photo": "assets/nominees/nom10_2.jpg",
+        "photo": "assets/nominees/Hisamov.png",
         "video": null,
         "videoTitle": null
       },
       {
         "id": "nom_10_3",
-        "name": "Владислав Новиков",
+        "name": "Максим Владимиров",
         "tagline": "Поставил будильник на 07:00 вечера вместо утра и удивился",
-        "photo": "assets/nominees/nom10_3.jpg",
+        "photo": "assets/nominees/Vladimirov.png",
         "video": null,
         "videoTitle": null
       },
       {
         "id": "nom_10_4",
-        "name": "Матвей Павлов",
+        "name": "Бауржан Нурмашев",
         "tagline": "Случайно удалил курсач за 5 минут до отправки и создал новый",
-        "photo": "assets/nominees/nom10_4.jpg",
+        "photo": "assets/nominees/Nurmashev.png",
         "video": null,
         "videoTitle": null
       }
@@ -433,25 +433,25 @@ const NOMINATIONS = [
       },
       {
         "id": "nom_11_2",
-        "name": "Анна Романова",
+        "name": "Дмитрий Стрельников",
         "tagline": "Слышно с любого конца коридора даже во время перемены",
-        "photo": "assets/nominees/nom8_2.jpg",
+        "photo": "assets/nominees/Strelnikov.png",
         "video": null,
         "videoTitle": null
       },
       {
         "id": "nom_11_3",
-        "name": "Иван Смирнов",
+        "name": "Кирилл Дергач",
         "tagline": "Главный вокалист на всех спонтанных гитарных сходках",
-        "photo": "assets/nominees/nom8_3.jpg",
+        "photo": "assets/nominees/Dergach.png",
         "video": null,
         "videoTitle": null
       },
       {
         "id": "nom_11_4",
-        "name": "Денис Васильев",
+        "name": "Кирилл Скрыпников",
         "tagline": "Умеет одним выкриком вернуть внимание всей аудитории",
-        "photo": "assets/nominees/nom8_4.jpg",
+        "photo": "assets/nominees/Skrypnikov.png",
         "video": null,
         "videoTitle": null
       }
@@ -482,9 +482,9 @@ const NOMINATIONS = [
       },
       {
         "id": "nom_12_3",
-        "name": "Владислав Новиков",
+        "name": "Максим Владимиров",
         "tagline": "Решает задачу повышенной сложности пока препод чертит схему",
-        "photo": "assets/nominees/nom9_3.jpg",
+        "photo": "assets/nominees/Vladimirov.png",
         "video": null,
         "videoTitle": null
       },
@@ -515,25 +515,25 @@ const NOMINATIONS = [
       },
       {
         "id": "nom_13_2",
-        "name": "Денис Васильев",
+        "name": "Матвей Веснин",
         "tagline": "Одной фразой срывает пары и отправляет всю группу под стол",
-        "photo": "assets/nominees/nom10_2.jpg",
+        "photo": "assets/nominees/Vesnin.png",
         "video": null,
         "videoTitle": null
       },
       {
         "id": "nom_13_3",
-        "name": "Никита Голубев",
+        "name": "Максим Николаев",
         "tagline": "Превратил сдачу лабораторных по электровозам в стендап",
-        "photo": "assets/nominees/nom10_3.jpg",
+        "photo": "assets/nominees/Nikolaev.png",
         "video": null,
         "videoTitle": null
       },
       {
         "id": "nom_13_4",
-        "name": "Роман Воробьёв",
+        "name": "Максим Владимиров",
         "tagline": "Живой шаблон мема в любой жизненной ситуации",
-        "photo": "assets/nominees/nom10_4.jpg",
+        "photo": "assets/nominees/Vladimirov.png",
         "video": null,
         "videoTitle": null
       }
@@ -564,17 +564,17 @@ const NOMINATIONS = [
       },
       {
         "id": "nom_14_3",
-        "name": "Полина Соловьёва",
+        "name": "Кирилл Дергач",
         "tagline": "Любой скучный день превращает в праздничный ивент",
-        "photo": "assets/nominees/nom11_3.jpg",
+        "photo": "assets/nominees/Dergach.png",
         "video": null,
         "videoTitle": null
       },
       {
         "id": "nom_14_4",
-        "name": "Сергей Фёдоров",
+        "name": "Матвей Веснин",
         "tagline": "Обаяние 100-го уровня: даже строгие преподы улыбаются",
-        "photo": "assets/nominees/nom11_4.jpg",
+        "photo": "assets/nominees/Vesnin.png",
         "video": null,
         "videoTitle": null
       }
@@ -605,9 +605,9 @@ const NOMINATIONS = [
       },
       {
         "id": "nom_15_3",
-        "name": "Даниил Волков",
-        "tagline": "Всегда ловит самые нелепые и гениальные моменты дня",
-        "photo": "assets/nominees/nom12_3.jpg",
+        "name": "Дмитрий Воропаев",
+        "tagline": "фото нахуй фотограф",
+        "photo": "assets/nominees/Voropaev.png",
         "video": null,
         "videoTitle": null
       },
@@ -618,6 +618,128 @@ const NOMINATIONS = [
         "photo": "assets/nominees/nom12_4.jpg",
         "video": null,
         "videoTitle": null
+      }
+    ],
+    "gallery": [
+      {
+        "src": "assets/gallery/photo_1.jpg",
+        "title": "Легендарный кадр с первой пары",
+        "author": "Кирилл Дергач",
+        "subtitle": "Архив ТПС-108",
+        "meta": [
+          { "label": "Автор", "value": "Кирилл Дергач" },
+          { "label": "Год", "value": "2026" }
+        ]
+      },
+      {
+        "src": "assets/gallery/photo_2.jpg",
+        "title": "Сон на задней парте",
+        "author": "Алексей Соколов",
+        "subtitle": "Компромат",
+        "meta": [
+          { "label": "Автор", "value": "Алексей Соколов" },
+          { "label": "Год", "value": "2026" }
+        ]
+      },
+      {
+        "src": "assets/gallery/photo_3.jpg",
+        "title": "Выезд в депо",
+        "author": "Дмитрий Воропаев",
+        "subtitle": "Репортаж",
+        "meta": [
+          { "label": "Автор", "value": "Дмитрий Воропаев" },
+          { "label": "Год", "value": "2026" }
+        ]
+      },
+      {
+        "src": "assets/gallery/photo_4.jpg",
+        "title": "Перемена в буфете",
+        "author": "Полина Соловьёва",
+        "subtitle": "Сторис",
+        "meta": [
+          { "label": "Автор", "value": "Полина Соловьёва" },
+          { "label": "Год", "value": "2026" }
+        ]
+      },
+      {
+        "src": "assets/gallery/photo_5.jpg",
+        "title": "Настроение перед зачётом",
+        "author": "Кирилл Дергач",
+        "subtitle": "Портрет",
+        "meta": [
+          { "label": "Автор", "value": "Кирилл Дергач" },
+          { "label": "Год", "value": "2026" }
+        ]
+      },
+      {
+        "src": "assets/gallery/photo_6.jpg",
+        "title": "Пойман с поличным",
+        "author": "Дмитрий Воропаев",
+        "subtitle": "Скрытая камера",
+        "meta": [
+          { "label": "Автор", "value": "Дмитрий Воропаев" },
+          { "label": "Год", "value": "2026" }
+        ]
+      },
+      {
+        "src": "assets/gallery/photo_7.jpg",
+        "title": "Общий движ после пар",
+        "author": "Алексей Соколов",
+        "subtitle": "Вечер",
+        "meta": [
+          { "label": "Автор", "value": "Алексей Соколов" },
+          { "label": "Год", "value": "2026" }
+        ]
+      },
+      {
+        "src": "assets/gallery/photo_8.jpg",
+        "title": "Эстетика коридора",
+        "author": "Полина Соловьёва",
+        "subtitle": "Стиль",
+        "meta": [
+          { "label": "Автор", "value": "Полина Соловьёва" },
+          { "label": "Год", "value": "2026" }
+        ]
+      },
+      {
+        "src": "assets/gallery/photo_9.jpg",
+        "title": "Ночная подготовка к курсачу",
+        "author": "Кирилл Дергач",
+        "subtitle": "Дедлайн",
+        "meta": [
+          { "label": "Автор", "value": "Кирилл Дергач" },
+          { "label": "Год", "value": "2026" }
+        ]
+      },
+      {
+        "src": "assets/gallery/photo_10.jpg",
+        "title": "Рандомный кадр года",
+        "author": "Дмитрий Воропаев",
+        "subtitle": "Без фильтров",
+        "meta": [
+          { "label": "Автор", "value": "Дмитрий Воропаев" },
+          { "label": "Год", "value": "2026" }
+        ]
+      },
+      {
+        "src": "assets/gallery/photo_11.jpg",
+        "title": "Легендарная улыбка",
+        "author": "Алексей Соколов",
+        "subtitle": "Архив",
+        "meta": [
+          { "label": "Автор", "value": "Алексей Соколов" },
+          { "label": "Год", "value": "2026" }
+        ]
+      },
+      {
+        "src": "assets/gallery/photo_12.jpg",
+        "title": "Финал третьего курса",
+        "author": "Полина Соловьёва",
+        "subtitle": "ТПС-108",
+        "meta": [
+          { "label": "Автор", "value": "Полина Соловьёва" },
+          { "label": "Год", "value": "2026" }
+        ]
       }
     ]
   },
@@ -630,9 +752,9 @@ const NOMINATIONS = [
     "nominees": [
       {
         "id": "nom_16_1",
-        "name": "Тимофей Михайлов",
+        "name": "Алексей Бурыкин",
         "tagline": "От скромного парня с задней парты до души любой вечеринки",
-        "photo": "assets/nominees/nom13_1.jpg",
+        "photo": "assets/nominees/Burikin.png",
         "video": null,
         "videoTitle": null
       },
@@ -646,17 +768,17 @@ const NOMINATIONS = [
       },
       {
         "id": "nom_16_3",
-        "name": "Анна Романова",
+        "name": "Артур Абызов",
         "tagline": "Неожиданно начала закрывать все хвосты с первой попытки",
-        "photo": "assets/nominees/nom13_3.jpg",
+        "photo": "assets/nominees/Abyzov.png",
         "video": null,
         "videoTitle": null
       },
       {
         "id": "nom_16_4",
-        "name": "Ярослав Беляев",
+        "name": "Бауржан Нурмашев",
         "tagline": "Прокачался в качалке так, что парты трещат",
-        "photo": "assets/nominees/nom13_4.jpg",
+        "photo": "assets/nominees/Nurmashev.png",
         "video": null,
         "videoTitle": null
       }
@@ -712,33 +834,33 @@ const NOMINATIONS = [
     "nominees": [
       {
         "id": "nom_18_1",
-        "name": "Алексей Соколов",
+        "name": "Дмитрий Стрельников",
         "tagline": "Бессменный двигатель группы, душа компании и человек-оркестр",
-        "photo": "assets/nominees/nom15_1.jpg",
+        "photo": "assets/nominees/Strelnikov.png",
         "video": null,
         "videoTitle": "Тронная речь кандидата"
       },
       {
         "id": "nom_18_2",
-        "name": "Дмитрий Кузнецов",
+        "name": "Абызов Артур",
         "tagline": "Надежный как советский тепловоз 2ТЭ10М и верный друг",
-        "photo": "assets/nominees/nom15_2.jpg",
+        "photo": "assets/nominees/Abyzov.png",
         "video": null,
         "videoTitle": null
       },
       {
         "id": "nom_18_3",
-        "name": "Илья Лебедев",
+        "name": "Павел Штакин",
         "tagline": "Король атмосферы и зачинщик всех лучших воспоминаний третьего курса",
-        "photo": "assets/nominees/nom15_3.jpg",
+        "photo": "assets/nominees/Shtakin.png",
         "video": null,
         "videoTitle": null
       },
       {
         "id": "nom_18_4",
-        "name": "Михаил Семёнов",
+        "name": "Дмитрий Воропаев",
         "tagline": "Абсолютный авторитет и главный харизматик потока",
-        "photo": "assets/nominees/nom15_4.jpg",
+        "photo": "assets/nominees/Voropaev.png",
         "video": null,
         "videoTitle": null
       }

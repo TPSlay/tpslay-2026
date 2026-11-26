@@ -2192,3 +2192,433 @@ body {
     max-width: 135px;
   }
 }
+
+
+/* =========================================================================
+   21st.dev 3D COVERFLOW CAROUSEL («Фотограф года») + LIGHTBOX
+   ========================================================================= */
+
+.coverflow-section {
+  margin-bottom: 26px;
+}
+
+.coverflow-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+  padding: 0 4px;
+}
+
+.coverflow-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.coverflow-counter {
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: #FFFFFF;
+  background: rgba(226, 26, 26, 0.16);
+  border: 1px solid rgba(226, 26, 26, 0.38);
+  padding: 3px 10px;
+  border-radius: 999px;
+}
+
+.coverflow-stage {
+  position: relative;
+  width: 100%;
+  height: 280px;
+  perspective: 1100px;
+  overflow: hidden;
+  touch-action: pan-y;
+  user-select: none;
+  outline: none;
+  margin-bottom: 12px;
+  cursor: grab;
+}
+
+.coverflow-stage.cf-dragging {
+  cursor: grabbing;
+}
+
+.coverflow-stage.cf-dragging .cf-slide {
+  transition: none !important;
+  cursor: grabbing;
+}
+
+.coverflow-track {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+}
+
+.cf-slide {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 215px;
+  height: 215px;
+  transform-style: preserve-3d;
+  transition: transform 0.42s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.36s ease, filter 0.36s ease;
+  cursor: pointer;
+  will-change: transform, opacity;
+}
+
+.cf-slide-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #0a0a0e;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.75);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cf-slide.is-active .cf-slide-inner {
+  border-color: rgba(226, 26, 26, 0.85);
+  box-shadow:
+    0 20px 50px rgba(0, 0, 0, 0.85),
+    0 0 28px rgba(226, 26, 26, 0.38);
+}
+
+.cf-slide-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+}
+
+.cf-slide-author-tag {
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  bottom: 8px;
+  padding: 5px 10px;
+  border-radius: 10px;
+  background: rgba(8, 8, 12, 0.78);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #FFFFFF;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.cf-slide.is-active .cf-slide-author-tag {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.cf-zoom-hint {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: rgba(10, 10, 14, 0.72);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: rgba(255, 255, 255, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.25s ease, background 0.2s ease;
+}
+
+.cf-slide.is-active:hover .cf-zoom-hint,
+.cf-slide.is-active .cf-zoom-hint {
+  opacity: 0.9;
+}
+
+.cf-arrow-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 40;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(14, 14, 18, 0.82);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.18s ease, background 0.2s ease, border-color 0.2s ease;
+}
+
+.cf-arrow-btn:hover {
+  background: var(--rzd-red);
+  border-color: var(--rzd-red);
+  transform: translateY(-50%) scale(1.06);
+}
+
+.cf-arrow-btn:active {
+  transform: translateY(-50%) scale(0.94);
+}
+
+.cf-prev { left: 6px; }
+.cf-next { right: 6px; }
+
+/* Панель подписи (showCaption) */
+.coverflow-caption {
+  padding: 14px 16px;
+  border-radius: 16px;
+  margin-bottom: 12px;
+}
+
+.cf-caption-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.cf-title-group {
+  min-width: 0;
+  flex: 1 1 210px;
+}
+
+.cf-slide-title {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #FFFFFF;
+  line-height: 1.25;
+  margin-bottom: 5px;
+}
+
+.cf-author-line {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+.cf-author-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: #D1D5DB;
+}
+
+.cf-author-badge strong {
+  color: #FF6B4A;
+  font-weight: 700;
+}
+
+.cf-slide-subtitle {
+  font-size: 0.74rem;
+  color: var(--text-dim);
+  padding-left: 8px;
+  border-left: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.cf-vote-author-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(226, 26, 26, 0.55);
+  background: rgba(226, 26, 26, 0.14);
+  color: #FFFFFF;
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+}
+
+.cf-vote-author-btn:hover {
+  background: var(--rzd-red);
+  border-color: var(--rzd-red);
+  box-shadow: 0 0 18px var(--rzd-glow);
+}
+
+.cf-vote-author-btn:active {
+  transform: scale(0.96);
+}
+
+.cf-vote-author-btn.selected {
+  background: var(--rzd-red);
+  border-color: #FF5A36;
+  box-shadow: 0 0 20px var(--rzd-glow);
+}
+
+.cf-vote-author-btn.selected .ui-icon {
+  color: #FFFFFF;
+}
+
+.cf-meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.cf-meta-chip {
+  font-size: 0.72rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 3px 9px;
+  border-radius: 8px;
+  color: #D1D5DB;
+}
+
+.cf-meta-lbl {
+  color: var(--text-dim);
+}
+
+/* Точки или Scrubber для 15..200+ фото */
+.coverflow-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 0;
+}
+
+.cf-dots-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.cf-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  border: none;
+  background: rgba(255, 255, 255, 0.22);
+  cursor: pointer;
+  padding: 0;
+  transition: width 0.25s ease, background 0.25s ease;
+}
+
+.cf-dot.active {
+  width: 22px;
+  background: var(--rzd-red);
+  box-shadow: 0 0 8px var(--rzd-glow);
+}
+
+.cf-scrubber-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 420px;
+}
+
+.cf-scrubber-edge {
+  font-family: var(--font-display);
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.cf-scrubber {
+  flex: 1;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 5px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.16);
+  outline: none;
+  cursor: pointer;
+}
+
+.cf-scrubber::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--rzd-red);
+  border: 2px solid #FFFFFF;
+  box-shadow: 0 0 12px var(--rzd-glow);
+  cursor: pointer;
+}
+
+.cf-scrubber::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--rzd-red);
+  border: 2px solid #FFFFFF;
+  box-shadow: 0 0 12px var(--rzd-glow);
+  cursor: pointer;
+}
+
+/* Lightbox просмотр фото */
+.lightbox-content {
+  max-width: 720px;
+}
+
+.lightbox-author-sub {
+  font-size: 0.8rem;
+  color: #FF6B4A;
+  margin-top: 2px;
+}
+
+.lightbox-body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #060608;
+}
+
+.lightbox-img {
+  max-width: 100%;
+  max-height: 75dvh;
+  border-radius: 10px;
+  object-fit: contain;
+  display: block;
+}
+
+@media (min-width: 640px) {
+  .coverflow-stage {
+    height: 335px;
+  }
+
+  .cf-slide {
+    width: 270px;
+    height: 270px;
+  }
+
+  .cf-prev { left: 14px; }
+  .cf-next { right: 14px; }
+}
