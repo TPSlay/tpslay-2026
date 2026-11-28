@@ -130,9 +130,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const videoModal = document.getElementById("video-modal");
   const modalVideoTitle = document.getElementById("modal-video-title");
   const modalVideoPlayer = document.getElementById("modal-video-player");
+  const modalVideoAmbience = document.getElementById("modal-video-ambience");
   const videoPlaceholderNotice = document.getElementById("video-placeholder-notice");
   const btnCloseModal = document.getElementById("btn-close-modal");
   const loadingOverlay = document.getElementById("loading-overlay");
+
+  let ambienceTimer = null;
 
   function isTestPin(code) {
     const s = String(code || "").trim();
@@ -735,18 +738,58 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // ================= ВИДЕО-МОДАЛКА =================
+  // ================= ВИДЕО-МОДАЛКА (AMBIENT CINEMA) =================
+  function drawVideoAmbienceFrame() {
+    if (!modalVideoAmbience || !modalVideoPlayer || modalVideoPlayer.readyState < 2) return;
+    if (modalVideoAmbience.width !== 64 || modalVideoAmbience.height !== 64) {
+      modalVideoAmbience.width = 64;
+      modalVideoAmbience.height = 64;
+    }
+    const ctx = modalVideoAmbience.getContext("2d");
+    if (!ctx) return;
+    try {
+      ctx.drawImage(modalVideoPlayer, 0, 0, 64, 64);
+    } catch (_) {}
+  }
+
+  function startVideoAmbience() {
+    stopVideoAmbience();
+    drawVideoAmbienceFrame();
+    ambienceTimer = setInterval(() => {
+      if (!modalVideoPlayer.paused && !modalVideoPlayer.ended) {
+        drawVideoAmbienceFrame();
+      }
+    }, 66);
+  }
+
+  function stopVideoAmbience() {
+    if (ambienceTimer) {
+      clearInterval(ambienceTimer);
+      ambienceTimer = null;
+    }
+    if (modalVideoAmbience) {
+      const ctx = modalVideoAmbience.getContext("2d");
+      if (ctx) ctx.clearRect(0, 0, modalVideoAmbience.width, modalVideoAmbience.height);
+    }
+  }
+
   function openVideoModal(nominee) {
     modalVideoTitle.textContent = nominee.videoTitle || `${nominee.name} — Видео-превью`;
 
     if (nominee.video) {
       modalVideoPlayer.classList.remove("hidden");
+      if (modalVideoAmbience) modalVideoAmbience.classList.remove("hidden");
       videoPlaceholderNotice.classList.add("hidden");
       modalVideoPlayer.src = nominee.video;
+      modalVideoPlayer.onloadeddata = drawVideoAmbienceFrame;
+      modalVideoPlayer.onseeked = drawVideoAmbienceFrame;
+      modalVideoPlayer.onplay = startVideoAmbience;
       modalVideoPlayer.load();
+      startVideoAmbience();
       modalVideoPlayer.play().catch(() => {});
     } else {
       modalVideoPlayer.classList.add("hidden");
+      if (modalVideoAmbience) modalVideoAmbience.classList.add("hidden");
       videoPlaceholderNotice.classList.remove("hidden");
     }
 
@@ -754,8 +797,13 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function closeVideoModal() {
+    stopVideoAmbience();
     modalVideoPlayer.pause();
+    modalVideoPlayer.onloadeddata = null;
+    modalVideoPlayer.onseeked = null;
+    modalVideoPlayer.onplay = null;
     modalVideoPlayer.removeAttribute("src");
+    modalVideoPlayer.load();
     videoModal.classList.add("hidden");
   }
 

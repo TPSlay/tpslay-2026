@@ -324,10 +324,8 @@
       </div>
       <div class="modal-body">
         <div class="video-wrapper">
-          <video id="modal-video-player" controls playsinline>
-            <source src="" type="video/mp4">
-            Ваш браузер не поддерживает видео.
-          </video>
+          <canvas id="modal-video-ambience" class="video-ambience-canvas" aria-hidden="true"></canvas>
+          <video id="modal-video-player" controls playsinline preload="metadata"></video>
           <div id="video-placeholder-notice" class="video-placeholder-notice hidden">
             <span class="video-icon">
               <svg class="ui-icon ui-icon-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><polygon points="10 9 16 12 10 15 10 9"/></svg>

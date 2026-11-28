@@ -18,7 +18,7 @@ const NOMINATIONS = [
         "name": "Виктор Бакалёв",
         "tagline": "Засыпает ещё до того, как лектор открыл презентацию",
         "photo": "assets/nominees/Bakalev.png",
-        "video": "assets/nominees/jopa.mp4",
+        "video": "assets/video/bakalev_sonya.mp4",
         "videoTitle": "Сон в позе мыслителя"
       },
       {
@@ -39,9 +39,9 @@ const NOMINATIONS = [
       },
       {
         "id": "nom_1_4",
-        "name": "Богдан Морозов",
+        "name": "Дмитрий Стрельников",
         "tagline": "Приносит в аудиторию анатомическую подушку и плед",
-        "photo": "assets/nominees/nom1_4.jpg",
+        "photo": "assets/nominees/Strelnikov.png",
         "video": null,
         "videoTitle": null
       }
@@ -75,14 +75,14 @@ const NOMINATIONS = [
         "name": "Дмитрий Воропаев",
         "tagline": "Слышит хруст пачки чипсов через две аудитории",
         "photo": "assets/nominees/Voropaev.png",
-        "video": null,
-        "videoTitle": null
+        "video": "assets/video/voropaev_obzhora.mov",
+        "videoTitle": "ХАВАЮ."
       },
       {
         "id": "nom_2_4",
-        "name": "Егор Попов",
+        "name": "Марсель Хисамов",
         "tagline": "Оставил в буфете половину стипендии за один семестр",
-        "photo": "assets/nominees/nom2_4.jpg",
+        "photo": "assets/nominees/Hisamov.png",
         "video": null,
         "videoTitle": null
       }
@@ -108,8 +108,8 @@ const NOMINATIONS = [
         "name": "Дмитрий Воропаев",
         "tagline": "они пиздят",
         "photo": "assets/nominees/Voropaev.png",
-        "video": null,
-        "videoTitle": null
+        "video": "assets/video/voropaev_pizdabol.mov",
+        "videoTitle": "они пиздят"
       },
       {
         "id": "nom_3_3",
@@ -121,9 +121,9 @@ const NOMINATIONS = [
       },
       {
         "id": "nom_3_4",
-        "name": "Максим Владимиров",
+        "name": "Олег Мясников",
         "tagline": "«Я не пил, я просто устал и глаза слипаются»",
-        "photo": "assets/nominees/Vladimirov.png",
+        "photo": "assets/nominees/Myasnikov.png",
         "video": null,
         "videoTitle": null
       }
@@ -138,9 +138,9 @@ const NOMINATIONS = [
     "nominees": [
       {
         "id": "nom_4_1",
-        "name": "Иван Смирнов",
+        "name": "Артур Абызов",
         "tagline": "«А ваша статья 2008 года — это шедевр научной мысли!»",
-        "photo": "assets/nominees/nom3_1.jpg",
+        "photo": "assets/nominees/Abyzov.png",
         "video": null,
         "videoTitle": null
       },
@@ -179,9 +179,9 @@ const NOMINATIONS = [
     "nominees": [
       {
         "id": "nom_5_1",
-        "name": "Максим Петров",
+        "name": "Артур Абызов",
         "tagline": "Приезжает на пары на такси категории Ultima",
-        "photo": "assets/nominees/nom4_1.jpg",
+        "photo": "assets/nominees/Abyzov.png",
         "video": null,
         "videoTitle": null
       },
@@ -239,8 +239,8 @@ const NOMINATIONS = [
         "name": "Дмитрий Воропаев",
         "tagline": "это неправда я не мразь голосуйте в соколова",
         "photo": "assets/nominees/Voropaev.png",
-        "video": null,
-        "videoTitle": null
+        "video": "assets/video/voropaev_mraz.mov",
+        "videoTitle": "это неправда я не мразь голосуйте в соколова"
       },
       {
         "id": "nom_6_4",
@@ -272,8 +272,8 @@ const NOMINATIONS = [
         "name": "Дмитрий Воропаев",
         "tagline": "Сеть информаторов по всем факультетам и общежитиям",
         "photo": "assets/nominees/Voropaev.png",
-        "video": null,
-        "videoTitle": null
+        "video": "assets/video/voropaev_spletnik.mov",
+        "videoTitle": "сплетничаю))"
       },
       {
         "id": "nom_7_3",
@@ -285,9 +285,9 @@ const NOMINATIONS = [
       },
       {
         "id": "nom_7_4",
-        "name": "Артём Ковалёв",
+        "name": "Сергей Шахов",
         "tagline": "Главный узел связи всех чатов и пересылок института",
-        "photo": "assets/nominees/nom5_4.jpg",
+        "photo": "assets/nominees/Shahov.png",
         "video": null,
         "videoTitle": null
       }
@@ -318,9 +318,9 @@ const NOMINATIONS = [
       },
       {
         "id": "nom_8_3",
-        "name": "Екатерина Зайцева",
+        "name": "Сергей Шахов",
         "tagline": "Эстетика в деталях: украшения, парфюм и идеальный оверсайз",
-        "photo": "assets/nominees/nom6_3.jpg",
+        "photo": "assets/nominees/Shahov.png",
         "video": null,
         "videoTitle": null
       },
@@ -507,9 +507,9 @@ const NOMINATIONS = [
     "nominees": [
       {
         "id": "nom_13_1",
-        "name": "Илья Лебедев",
+        "name": "Дмитрий Стрельников",
         "tagline": "Автор стикерпака, за который можно вылететь из института",
-        "photo": "assets/nominees/nom10_1.jpg",
+        "photo": "assets/nominees/Strelnikov.png",
         "video": null,
         "videoTitle": "Легендарный ответ на коллоквиуме"
       },
@@ -548,17 +548,17 @@ const NOMINATIONS = [
     "nominees": [
       {
         "id": "nom_14_1",
-        "name": "Михаил Семёнов",
+        "name": "Максим Владимиров",
         "tagline": "Заходит в аудиторию как рок-звезда на стадион",
-        "photo": "assets/nominees/nom11_1.jpg",
+        "photo": "assets/nominees/Vladimirov.png",
         "video": null,
         "videoTitle": null
       },
       {
         "id": "nom_14_2",
-        "name": "Богдан Морозов",
+        "name": "Виктор Бакалев",
         "tagline": "Его смех эхом разносится по всему третьему этажу",
-        "photo": "assets/nominees/nom11_2.jpg",
+        "photo": "assets/nominees/Bakalev.png",
         "video": null,
         "videoTitle": null
       },
@@ -597,9 +597,9 @@ const NOMINATIONS = [
       },
       {
         "id": "nom_15_2",
-        "name": "Алексей Соколов",
+        "name": "Кирилл Скрыпников",
         "tagline": "Хранит 128 ГБ спящих одногруппников для шантажа перед дипломом",
-        "photo": "assets/nominees/nom12_2.jpg",
+        "photo": "assets/nominees/Skrypnikov.png",
         "video": null,
         "videoTitle": null
       },
@@ -613,52 +613,48 @@ const NOMINATIONS = [
       },
       {
         "id": "nom_15_4",
-        "name": "Полина Соловьёва",
+        "name": "Марсель Хисамов",
         "tagline": "Главный хроникёр сторис и кружочков в Telegram-чате группы",
-        "photo": "assets/nominees/nom12_4.jpg",
+        "photo": "assets/nominees/Hisamov.png",
         "video": null,
         "videoTitle": null
       }
     ],
     "gallery": [
       {
-        "src": "assets/gallery/photo_1.jpg",
-        "title": "Легендарный кадр с первой пары",
+        "src": "assets/gallery/der1.jpg",
+        "title": "ПУСТО",
         "author": "Кирилл Дергач",
-        "subtitle": "Архив ТПС-108",
+        "subtitle": "ПУСТО",
         "meta": [
-          { "label": "Автор", "value": "Кирилл Дергач" },
-          { "label": "Год", "value": "2026" }
+          { "label": "Автор", "value": "Кирилл Дергач" }
         ]
       },
       {
-        "src": "assets/gallery/photo_2.jpg",
-        "title": "Сон на задней парте",
-        "author": "Алексей Соколов",
-        "subtitle": "Компромат",
+        "src": "assets/gallery/skr1.jpg",
+        "title": "ПУСТО",
+        "author": "Кирилл Скрыпников",
+        "subtitle": "ПУСТО",
         "meta": [
-          { "label": "Автор", "value": "Алексей Соколов" },
-          { "label": "Год", "value": "2026" }
+          { "label": "Автор", "value": "Кирилл Скрыпников" }
         ]
       },
       {
-        "src": "assets/gallery/photo_3.jpg",
-        "title": "Выезд в депо",
+        "src": "assets/gallery/vor.png",
+        "title": "СЛИВ БОРИСА",
         "author": "Дмитрий Воропаев",
-        "subtitle": "Репортаж",
+        "subtitle": "Слив пузяки",
         "meta": [
-          { "label": "Автор", "value": "Дмитрий Воропаев" },
-          { "label": "Год", "value": "2026" }
+          { "label": "Автор", "value": "Дмитрий Воропаев" }
         ]
       },
       {
-        "src": "assets/gallery/photo_4.jpg",
-        "title": "Перемена в буфете",
-        "author": "Полина Соловьёва",
-        "subtitle": "Сторис",
+        "src": "assets/gallery/his1.jpg",
+        "title": "ПУСТО",
+        "author": "Марсель Хисамов",
+        "subtitle": "ПУСТО",
         "meta": [
-          { "label": "Автор", "value": "Полина Соловьёва" },
-          { "label": "Год", "value": "2026" }
+          { "label": "Автор", "value": "Марсель Хисамов" }
         ]
       },
       {
@@ -793,33 +789,33 @@ const NOMINATIONS = [
     "nominees": [
       {
         "id": "nom_17_1",
-        "name": "Владислав Новиков",
-        "tagline": "Сдал курсач за 15 минут до дедлайна после бессонной недели",
-        "photo": "assets/nominees/nom14_1.jpg",
+        "name": "Чижов OG",
+        "tagline": "Человек-Завоз, в паре с Максимом Владимировым",
+        "photo": "assets/nominees/og.png",
         "video": null,
-        "videoTitle": "Финальный клик перед закрытием ведомости"
+        "videoTitle": null
       },
       {
         "id": "nom_17_2",
-        "name": "Кирилл Козлов",
-        "tagline": "Завёз колонку и устроил рейв в пустой лекционной",
-        "photo": "assets/nominees/nom14_2.jpg",
+        "name": "Пузо Борисова",
+        "tagline": "Спалил пузо на паре",
+        "photo": "assets/nominees/boris.png",
         "video": null,
         "videoTitle": null
       },
       {
         "id": "nom_17_3",
-        "name": "Матвей Павлов",
-        "tagline": "Договорился об автомате для всей подгруппы за 2 шутки",
-        "photo": "assets/nominees/nom14_3.jpg",
+        "name": "Дёмин Д.А. звонок с оператором МТС",
+        "tagline": "Легендарный звонок с сотрудницей МТС",
+        "photo": "assets/nominees/demin.png",
         "video": null,
         "videoTitle": null
       },
       {
         "id": "nom_17_4",
-        "name": "Артём Ковалёв",
-        "tagline": "Пришёл на пересдачу в костюме-тройке и спасся на 3.0",
-        "photo": "assets/nominees/nom14_4.jpg",
+        "name": "Бауржан с огнетушителем",
+        "tagline": "баур сам скажет нахуй",
+        "photo": "assets/nominees/baur_ogn.png",
         "video": null,
         "videoTitle": null
       }
@@ -861,8 +857,8 @@ const NOMINATIONS = [
         "name": "Дмитрий Воропаев",
         "tagline": "Абсолютный авторитет и главный харизматик потока",
         "photo": "assets/nominees/Voropaev.png",
-        "video": null,
-        "videoTitle": null
+        "video": "assets/video/voropaev_king.mov",
+        "videoTitle": "Я КАРОЛЬ Я БОСС БЛЯТЬ!"
       }
     ]
   }
